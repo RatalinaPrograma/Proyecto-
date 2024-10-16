@@ -1,0 +1,103 @@
+ion-toolbar {
+  --background: #0d47a1;
+  --color: white;
+  text-align: center;
+  .logo-img {
+    width: 50px; 
+    height: 50px; 
+    margin-right: 5%;
+  }
+}
+
+ 
+
+ion-card {
+  --background: rgba(255, 255, 255, 0.9);
+  --border-radius: 12px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+ion-card-header {
+  --background: #89ecdc;
+  --color: white;
+}
+
+ion-card-title {
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+ion-item {
+  --background: transparent;
+  --color: #0d47a1;
+}
+
+ion-label h2 {
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+.enviobtn {
+  --background: #4caf50;         /* Color de fondo */
+  --color: white;                /* Color del texto */
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Sombra */
+  --border-radius: 12px;         /* Bordes redondeados */
+  padding: 10px 20px;            /* Relleno para que se vea bien en dispositivos pequeños */
+  font-weight: bold;             /* Texto en negrita */
+  font-size: 1rem;               /* Tamaño de fuente adaptado */
+
+  /* Asegurar que el botón se vea bien en pantallas pequeñas */
+  width: 100%;                   /* Que ocupe todo el ancho disponible */
+  max-width: 500px;              /* Limitar el ancho máximo del botón */
+  margin: 10px auto;             /* Centrar el botón horizontalmente */
+  display: block;                /* Asegurar que sea bloque */
+
+  transition: all 0.3s ease-in-out; /* Animación para suavizar los cambios de tamaño */
+}
+
+/* Adaptaciones para pantallas más grandes */
+@media (min-width: 768px) {
+  .enviobtn {
+    font-size: 1.2rem;            /* Aumenta el tamaño de la fuente en pantallas grandes */
+    padding: 15px 30px;           /* Aumenta el relleno en pantallas grandes */
+    max-width: 400px;             /* Limita el ancho máximo en pantallas medianas/grandes */
+  }
+}
+
+/* Adaptaciones para pantallas extra grandes */
+@media (min-width: 1200px) {
+  .enviobtn {
+    max-width: 350px;             /* Limita aún más el ancho en pantallas muy grandes */
+    font-size: 1.3rem;            /* Incrementa un poco más el tamaño de la fuente */
+  }
+}
+
+
+.custom-footer {
+  --background: #f8f9fa; 
+  border-top: 1px solid #e0e0e0; 
+  padding: 10px 0; 
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
+  background-color: white;
+
+  ion-icon {
+    color: #007bff; 
+    font-size: 20px; 
+  }
+
+  ion-label {
+    color: #343a40; 
+    font-size: 14px; 
+    font-weight: 500; 
+    text-align: center; 
+  }
+
+  ion-button {
+    --background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+

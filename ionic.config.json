@@ -1,0 +1,7 @@
+{
+  "name": "pulse-track6",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

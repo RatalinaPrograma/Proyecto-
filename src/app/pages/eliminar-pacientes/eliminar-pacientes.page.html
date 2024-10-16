@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Eliminar pacientes</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+
+  <div class="botones-centrados">
+    <ion-button color="danger" expand="full" (click)="eliminarpaciente()">
+      Eliminar
+    </ion-button>
+    <ion-button color="primary" expand="full" [routerLink]="['/crud-pacientes']">
+      Cancelar
+    </ion-button>
+  </div>
+</ion-content>

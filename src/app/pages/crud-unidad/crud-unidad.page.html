@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>CRUD PACIENTES</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="background">
+  <div class="verbtn">
+    <ion-button class="btn-azul-suave" expand="block" (click)="verUnidad()">
+      <ion-icon slot="start" name="eye"></ion-icon>
+      Ver Unidad
+    </ion-button>
+  </div>
+
+  <div class="agrbtn">
+    <ion-button class="btn-verde-claro" expand="block" (click)="agregarUnidad()">
+      <ion-icon slot="start" name="add"></ion-icon>
+      Agregar Unidad
+    </ion-button>
+  </div>
+
+  <div class="edbtn">
+    <ion-button class="btn-aqua" expand="block" (click)="modificarUnidad()">
+      <ion-icon slot="start" name="create"></ion-icon>
+      Modificar Unidad
+    </ion-button>
+  </div>
+
+  <div class="elbtn">
+    <ion-button class="btn-verde-menta" expand="block" (click)="eliminarUnidad()">
+      <ion-icon slot="start" name="trash"></ion-icon>
+      Eliminar Unidad
+    </ion-button>
+  </div>
+</ion-content>
+
+<ion-footer class="custom-footer">
+  <ion-button expand="block" (click)="verReporte()">
+    <ion-icon name="document-text-outline"></ion-icon>
+    <ion-label>Menú principal</ion-label>
+  </ion-button>
+</ion-footer>

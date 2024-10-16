@@ -1,0 +1,74 @@
+ion-toolbar {
+  --background: #0d47a1;
+  --color: white;
+  text-align: center;
+  .logo-img {
+    width: 50px; 
+    height: 50px; 
+    margin-right: 5%;
+  }
+}
+
+ion-item {
+  --background: transparent;
+  --color: #000000; 
+  --label-color: #000000; 
+}
+
+ion-input {
+  --placeholder-color: #B0BEC5; 
+}
+
+.boton {
+  --background: #5D3FD3; 
+  --color: white; 
+  --border-radius: 12px;
+  --padding: 12px 24px;
+  font-weight: bold;
+  display: block;
+  margin: 20px auto;
+  width: 100%;
+}
+
+.separator {
+  height: 20px;
+}
+
+.register {
+  text-align: center;
+  color: #000000; 
+}
+
+.register a {
+  color: #64B5F6; 
+  text-decoration: none;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
+
+.hola{
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+
+
+
+ion-item p {
+  text-align: center;
+  color: #000000; 
+}
+
+/* Estilo para el enlace */
+ion-item a {
+  color: #64B5F6; 
+  text-decoration: none;
+}
+
+/* Estilo para el estado hover del enlace */
+ion-item a:hover {
+  text-decoration: underline;
+  text-align: center;
+}

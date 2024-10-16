@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Registro de usuario</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="center-content">
+    <h1 class="page-title">Crea tu Cuenta</h1>
+
+    <ion-card class="card">
+      <ion-card-content>
+        <form (submit)="onRegister()">
+         
+          <ion-item class="input-item">
+            <ion-label position="floating">Nombres</ion-label>
+            <ion-input type="text" [(ngModel)]="persona.nombres" name="nombres" required></ion-input>
+          </ion-item>
+
+         
+          <ion-item class="input-item">
+            <ion-label position="floating">Apellidos</ion-label>
+            <ion-input type="text" [(ngModel)]="persona.apellidos" name="apellidos" required></ion-input>
+          </ion-item>
+
+         
+          <ion-item class="input-item">
+            <ion-label position="floating">RUT</ion-label>
+            <ion-input type="text" [(ngModel)]="persona.rut" name="rut" required></ion-input>
+          </ion-item>
+
+          
+          <ion-item class="input-item">
+            <ion-label position="floating">Correo</ion-label>
+            <ion-input type="email" [(ngModel)]="persona.correo" name="correo" required></ion-input>
+          </ion-item>
+
+          
+          <ion-item class="input-item">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="persona.clave" name="clave" required></ion-input>
+          </ion-item>
+
+          
+          <ion-button expand="block" class="register-button" type="submit">Registrar</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    
+    <ion-button expand="block" class="back-button" routerLink="/login-paramedico">Regresar</ion-button>
+  </div>
+
+
+  <ion-item>
+    <ion-card>
+      <img alt="Paramedicos" src="/assets/img/register.jpg" />
+      <ion-card-header>
+        <ion-card-title>Pulse Track</ion-card-title>
+        <ion-card-subtitle>Conexión en tiempo real, conexión médica ideal.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        Registrate en segundos!
+      </ion-card-content>
+    </ion-card>
+
+  </ion-item>
+
+</ion-content>
+
+  

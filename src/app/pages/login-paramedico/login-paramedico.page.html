@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inicio de sesión</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form (ngSubmit)="login()"> 
+    <!-- Campo de RUT -->
+    <ion-item>
+      <svg class="hola" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+        <path d="M360-390q-21 0-35.5-14.5T310-440q0-21 14.5-35.5T360-490q21 0 35.5 14.5T410-440q0 21-14.5 35.5T360-390Zm240 0q-21 0-35.5-14.5T550-440q0-21 14.5-35.5T600-490q21 0 35.5 14.5T650-440q0 21-14.5 35.5T600-390ZM480-160q134 0 227-93t93-227q0-24-3-46.5T786-570q-21 5-42 7.5t-44 2.5q-91 0-172-39T390-708q-32 78-91.5 135.5T160-486v6q0 134 93 227t227 93Zm0 80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-54-715q42 70 114 112.5T700-640q14 0 27-1.5t27-3.5q-42-70-114-112.5T480-800q-14 0-27 1.5t-27 3.5ZM177-581q51-29 89-75t57-103q-51 29-89 75t-57 103Zm249-214Zm-103 36Z"/>
+      </svg>
+      <ion-input label="Rut" labelPlacement="floating" placeholder="Ingrese su Rut" [(ngModel)]="rut" name="rut" required></ion-input>
+    </ion-item>
+
+    <!-- Campo de Contraseña -->
+    <ion-item>
+      <svg class="hola" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+        <path d="M280-400q-33 0-56.5-23.5T200-480q0-33 23.5-56.5T280-560q33 0 56.5 23.5T360-480q0 33-23.5 56.5T280-400Zm0 160q-100 0-170-70T40-480q0-100 70-170t170-70q67 0 121.5 33t86.5 87h352l120 120-180 180-80-60-80 60-85-60h-47q-32 54-86.5 87T280-240Zm0-80q56 0 98.5-34t56.5-86h125l58 41 82-61 71 55 75-75-40-40H435q-14-52-56.5-86T280-640q-66 0-113 47t-47 113q0 66 47 113t113 47Z"/>
+      </svg>
+      <ion-input type="password" label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" [(ngModel)]="password" name="password" required></ion-input>
+    </ion-item>
+
+    <!-- Botón para iniciar sesión -->
+    <ion-button class="boton" type="submit">Iniciar sesión</ion-button>
+  </form>
+
+  <!-- Separador visual -->
+  <div class="separator"></div>
+
+  <!-- Enlace para registro -->
+  <p color="blancohielo" class="register">
+    ¿No tienes una cuenta?
+    <a href="/register-paramedico">Regístrate</a>
+  </p>
+
+  <!-- Información adicional -->
+  <ion-item>
+    <p>Aquí podrás ingresar a tu sesión creada por el administrador, pero si no recuerdas tu contraseña, no te preocupes! Pincha en olvidé mi contraseña y te ayudaremos!</p>
+  </ion-item>
+</ion-content>

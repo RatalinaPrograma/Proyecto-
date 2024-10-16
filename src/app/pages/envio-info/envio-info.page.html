@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/reg-detallesmedicos"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Revisión final</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="background" style="--background: url('/assets/imgs/emergencias-fondo.png') no-repeat center center / cover;">
+
+  <!-- Sección de Revisión de Datos -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Datos del Paciente</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <h2>Nombre:</h2> {{paciente.nombre}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h2>Edad:</h2> {{paciente.edad}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h2>Teléfono:</h2> {{paciente.telefono_contacto}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h2>Rut:</h2>  {{paciente.rut }}
+
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón para Enviar Información -->
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button class="enviobtn" expand="block" color="success" slot="end" (click)="obteneralPaciente()">
+        Enviar Información
+      </ion-button>      
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>
+
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+

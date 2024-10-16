@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/reg-causaemergencia"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu">
+        
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>Ingreso de emergencia</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-content>
+
+    <!-- Formulario de Datos Básicos del Paciente -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Formulario Inicial</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Nombre Completo</ion-label>
+          <ion-input placeholder="Ingrese el nombre del paciente" [(ngModel)]="paciente.nombre"></ion-input>
+        </ion-item>
+        <div style="margin: 16px auto; max-width: 90%; padding: 0 5%;">
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="paciente.f_nacimiento" name="fechaNacimiento">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        
+        
+        <ion-item>
+          <ion-label position="stacked">Género</ion-label>
+          <ion-select placeholder="Seleccione el género" [(ngModel)]="paciente.idGenero">
+            <ion-select-option value="1">Masculino</ion-select-option>
+            <ion-select-option value="2">Femenino</ion-select-option>
+            <ion-select-option value="3">Otro</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Ingrese su Rut</ion-label>
+          <ion-input placeholder="12345678-1" [(ngModel)]="paciente.rut"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Teléfono de Contacto</ion-label>
+          <ion-input type="tel" placeholder="Ingrese el teléfono de contacto" [(ngModel)]="paciente.telefono_contacto"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  
+    <!-- Botón para Continuar -->
+    <ion-footer>
+      <ion-toolbar>
+        <ion-button expand="block" color="primary" (click)="guardarPaciente()">Continuar a Detalles Médicos</ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  
+  </ion-content>
+</ion-content>
+
+
+
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

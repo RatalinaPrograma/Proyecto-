@@ -1,0 +1,144 @@
+ion-toolbar {
+  --background: #0d47a1;
+  --color: white;
+  text-align: center;
+  font-size: 30px;
+  .logo-img {
+    width: 50px; 
+    height: 50px; 
+    margin-right: 5%;
+  }
+}
+
+.paciente-card {
+  margin-bottom: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  transition: transform 0.3s ease; // Transición para darle una animación sutil al hover
+
+  &:hover {
+    transform: translateY(-4px);  // Eleva la tarjeta ligeramente al hacer hover en pantallas grandes
+  }
+
+  ion-card-header {
+    background-color: #f4f4f4;
+    padding: 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+    ion-card-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    ion-card-subtitle {
+      font-size: 1rem;
+      color: #666;
+    }
+  }
+
+  ion-card-content {
+    padding: 16px;
+
+    p {
+      margin: 6px 0;
+      font-size: 1rem;
+      color: #333;
+    }
+  }
+
+  ion-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 16px;
+    border-top: 1px solid #ddd;
+
+    ion-button {
+      margin-left: 8px;
+      color: #3880ff;
+      font-weight: bold;
+
+      &:hover {
+        background-color: rgba(56, 128, 255, 0.1);
+      }
+    }
+  }
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .paciente-card {
+    margin-bottom: 12px;
+
+    ion-card-header {
+      padding: 10px;
+
+      ion-card-title {
+        font-size: 1.1rem;  // Reduce ligeramente el tamaño del título en pantallas más pequeñas
+      }
+
+      ion-card-subtitle {
+        font-size: 0.9rem;  // Ajusta el tamaño del subtítulo
+      }
+    }
+
+    ion-card-content {
+      padding: 12px;
+
+      p {
+        font-size: 0.95rem;  // Reduce el tamaño de texto para móviles
+      }
+    }
+
+    ion-card-footer {
+      padding: 8px 12px;
+
+      ion-button {
+        margin-left: 6px;
+        font-size: 0.9rem;  // Botones más pequeños en pantallas pequeñas
+      }
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .paciente-card {
+    margin-bottom: 16px;
+
+    ion-card-header {
+      padding: 14px;
+
+      ion-card-title {
+        font-size: 1.25rem;  // Títulos ligeramente más grandes para tablets
+      }
+
+      ion-card-subtitle {
+        font-size: 1rem;
+      }
+    }
+
+    ion-card-content {
+      padding: 18px;
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+  
+      ion-button {
+        margin-left: 10px;
+        font-size: 1rem;
+      }
+    }
+  }
+
+
+/* Grandes pantallas */
+@media (min-width: 1025px) {
+  .paciente-card {
+    max-width: 600px;  // Limita el ancho máximo de las tarjetas en pantallas grandes para mejor legibilidad
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

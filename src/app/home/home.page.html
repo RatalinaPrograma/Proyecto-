@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Menú principal</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background" id="emergenciasContent" style="--background: url('/assets/imgs/emergencias-fondo.png') no-repeat center center / cover;">
+
+  <ion-title>
+    <div id="reloj">{{horaActual}}</div>
+  </ion-title>
+
+  <ion-card>
+    <ion-card-header color="danger">
+      <ion-card-title>Emergencias Activas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Aquí se listarán las emergencias activas -->
+      <ion-list>
+        <ion-item *ngFor="let emergencia of emergenciasActivas">
+          <ion-label>
+            <h2>{{ emergencia.titulo }}</h2>
+            <p>{{ emergencia.descripcion }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="4">
+        <ion-button expand="block" class="btn-azul-claro" routerLink="/ev-nivelurgencia" routerDirection="root">
+          Nueva Emergencia
+        </ion-button>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <ion-button expand="block" class="btn-verde-claro" routerLink="/historial-casos" routerDirection="root">
+          Historial
+        </ion-button>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <ion-button expand="block" class="btn-verde-pastel" routerLink="/configuracion-unidad" routerDirection="root">
+          Configuración Unidad
+        </ion-button>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <ion-button expand="block" class="btn-turquesa-claro" routerLink="/detalles-caso-anterior" routerDirection="root">
+          Detalles de Caso anterior
+        </ion-button>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <ion-button expand="block" class="btn-aqua" routerLink="/conf-recepcion" routerDirection="root">
+          Verificacion de la recepcion
+        </ion-button>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <ion-button expand="block" class="btn-aqua" routerLink="/crud-pacientes" routerDirection="root">
+          Crud Paciente
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-item>
+    <ion-card>
+      <img alt="Paramedicos" src="/assets/img/paramedicos.avif" />
+      <ion-card-header>
+        <ion-card-title>Pulse Track</ion-card-title>
+        <ion-card-subtitle>Conexión en tiempo real, conexión médica ideal.</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        La aplicación que te ayuda a agilizar la salud en Chile.
+      </ion-card-content>
+    </ion-card>
+
+  </ion-item>
+
+</ion-content>
+
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <!-- Botón Ver Perfil -->
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/ajustes-perfil-paramedico" routerDirection="root">
+          <ion-icon name="person-outline"></ion-icon>
+          <ion-label>Ver Perfil</ion-label>
+        </ion-button>
+      </ion-col>
+
+      <!-- Botón Ver Mapa en Vivo -->
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+
+      <!-- Botón Cerrar Sesión -->
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+

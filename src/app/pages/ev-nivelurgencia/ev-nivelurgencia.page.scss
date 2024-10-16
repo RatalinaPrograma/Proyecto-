@@ -1,0 +1,74 @@
+ion-toolbar {
+  --background: #0d47a1;
+  --color: white;
+  text-align: center;
+  .logo-img {
+    width: 50px; 
+    height: 50px; 
+    margin-right: 5%;
+  }
+}
+ion-content.background {
+  --background: url('/assets/imgs/emergencias-fondo.png') no-repeat center center / cover;
+}
+
+ion-card {
+  --background: rgba(255, 255, 255, 0.9);
+  --border-radius: 12px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+ion-card-header {
+  --background: #89ecdc;
+  --color: white;
+}
+
+ion-card-title {
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+ion-item {
+  --background: transparent;
+  --color: #0d47a1;
+}
+
+ion-label h2 {
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+ion-button {
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
+  --padding: 12px 24px;
+  font-weight: bold;
+}
+
+.custom-footer {
+  --background: #f8f9fa; 
+  border-top: 1px solid #e0e0e0; 
+  padding: 10px 0; 
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
+  background-color: white;
+
+  ion-icon {
+    color: #007bff; 
+    font-size: 20px; 
+  }
+
+  ion-label {
+    color: #343a40; 
+    font-size: 14px; 
+    font-weight: 500; 
+    text-align: center; 
+  }
+
+  ion-button {
+    --background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

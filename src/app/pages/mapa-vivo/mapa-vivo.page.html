@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mapa en vivo</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Sección del Mapa -->
+  <div id="map-placeholder" style="height: 50vh; width: 100%; background-color: lightgray;">
+    <p style="text-align: center; padding-top: 20vh; color: #555;">Mapa del Trayecto</p>
+  </div>
+
+  <!-- Indicadores de Tiempo Estimado de Llegada -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Tiempo Estimado de Llegada</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label>Tiempo Restante:</ion-label>
+            <h2>10 mins</h2> <!-- Texto estático -->
+          </ion-col>
+          <ion-col>
+            <ion-label>Distancia Restante:</ion-label>
+            <h2>5 km</h2> <!-- Texto estático -->
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

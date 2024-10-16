@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Detalles de la unidad</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="background" style="--background: url('/assets/imgs/emergencias-fondo.png') no-repeat center center / cover;">
+  
+  <!-- Sección de Detalles de la Ambulancia -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Detalles de la Ambulancia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Número de Unidad</ion-label>
+        <ion-text>AMB-1024</ion-text>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  
+  <!-- Sección de Estado de la Unidad -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Estado de la Unidad</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Estado</ion-label>
+        <ion-text>En Servicio</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Fecha Mantenimiento</ion-label>
+        <ion-text>01/08/2024</ion-text>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  
+  <!-- Sección de Configuración de Disponibilidad -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Configuración de Disponibilidad</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Disponible para Nuevos Casos</ion-label>
+        <ion-toggle [(ngModel)]="disponibleParaCasos"></ion-toggle>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  
+  <!-- Botones de Acción -->
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button expand="block" color="primary" class="btn-azul-claro">Guardar Configuración</ion-button>
+    </ion-toolbar>
+  </ion-footer>
+
+</ion-content>
+
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Nivel de urgencia (TRIAGE)</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="background" style="--background: url('/assets/imgs/emergencias-fondo.png') no-repeat center center / cover;">
+
+  <!-- Selección del Nivel de Urgencia -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Nivel de Urgencia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Seleccione el Nivel de Urgencia</ion-label>
+      </ion-item>
+      <ion-segment value="media" [(ngModel)]="nivelUrgencia">
+        <ion-segment-button value="baja">
+          <ion-label>Baja</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="media">
+          <ion-label>Media</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="alta">
+          <ion-label>Alta</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="critica">
+          <ion-label>Crítica</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-card-content>
+  </ion-card>
+  
+  <!-- Confirmación de la Evaluación -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Confirmación</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Confirmar la evaluación del nivel de urgencia seleccionado.</ion-label>
+        <ion-checkbox slot="start" [(ngModel)]="confirmacion"></ion-checkbox>
+      </ion-item>
+      <ion-button expand="block" color="primary" (click)="siguiente()">Siguiente</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-item>
+    <ion-card>
+      <img alt="Paramedicos" src="/assets/img/triage-chile.webp" />
+      <ion-card-header>
+        <ion-card-title>Pulse Track</ion-card-title>
+        <ion-card-subtitle>Conexión en tiempo real, conexión médica ideal.</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Niveles de Urgencia
+      </ion-card-content>
+    </ion-card>
+  </ion-item>
+
+</ion-content>
+
+<!-- Footer con diseño independiente -->
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

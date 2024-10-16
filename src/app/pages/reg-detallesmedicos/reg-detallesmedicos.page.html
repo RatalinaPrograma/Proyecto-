@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/nueva-emergencia"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Registro de detalles medicos</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- Formulario para Ingresar Signos Vitales -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Signos Vitales</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Frecuencia Cardíaca (bpm)</ion-label>
+        <ion-input type="number" [(ngModel)]="frecuenciaCardiaca" placeholder="Ingrese la frecuencia cardíaca"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Presión Arterial (mmHg)</ion-label>
+        <ion-input [(ngModel)]="presionArterial" placeholder="Ingrese la presión arterial"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Temperatura Corporal (°C)</ion-label>
+        <ion-input type="number" [(ngModel)]="temperaturaCorporal" placeholder="Ingrese la temperatura corporal"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Saturación de Oxígeno (%)</ion-label>
+        <ion-input type="number" [(ngModel)]="saturacionOxigeno" placeholder="Ingrese la saturación de oxígeno"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Frecuencia Respiratoria (rpm)</ion-label>
+        <ion-input type="number" [(ngModel)]="frecuenciaRespiratoria" placeholder="Ingrese la frecuencia respiratoria"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Historial Médico -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Historial Médico</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Condiciones Preexistentes</ion-label>
+        <ion-textarea [(ngModel)]="condicionesPreexistentes" placeholder="Describa las condiciones preexistentes"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Operaciones Anteriores</ion-label>
+        <ion-textarea [(ngModel)]="operacionesAnteriores" placeholder="Describa las operaciones anteriores"></ion-textarea>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón para Guardar -->
+    <ion-toolbar>
+      <ion-button class="guardarbtn" expand="block" color="primary" (click)="guardarRegistro()">Guardar Registro</ion-button>
+    </ion-toolbar>
+</ion-content>
+
+
+<!-- Footer con diseño independiente -->
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+

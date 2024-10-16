@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Hospitales cercanos</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-content>
+
+    <!-- Filtros de Búsqueda -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Filtros</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label>Filtrar por Especialidad</ion-label>
+          <ion-select placeholder="Seleccione especialidad">
+            <ion-select-option value="cardiologia">Cardiología</ion-select-option>
+            <ion-select-option value="pediatria">Pediatría</ion-select-option>
+            <ion-select-option value="traumatologia">Traumatología</ion-select-option>
+            <ion-select-option value="general">Medicina General</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Filtrar por Cercanía</ion-label>
+          <ion-range min="1" max="50" step="1">
+            <ion-label slot="start">1 km</ion-label>
+            <ion-label slot="end">50 km</ion-label>
+          </ion-range>
+        </ion-item>
+        <ion-button expand="block" color="secondary">Aplicar Filtros</ion-button>
+      </ion-card-content>
+    </ion-card>
+  
+    <!-- Lista de Hospitales Disponibles -->
+    <ion-list>
+      <ion-item>
+        <ion-label>
+          <h2>Hospital General</h2>
+          <p>Tiempo estimado de llegada: 10 minutos</p>
+          <p>Especialidades: Cardiología, Urgencias</p>
+        </ion-label>
+        <ion-badge color="success" slot="end">2 km</ion-badge>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>
+          <h2>Clínica Santa María</h2>
+          <p>Tiempo estimado de llegada: 15 minutos</p>
+          <p>Especialidades: Neurología, Pediatría</p>
+        </ion-label>
+        <ion-badge color="warning" slot="end">5 km</ion-badge>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>
+          <h2>Hospital del Sur</h2>
+          <p>Tiempo estimado de llegada: 20 minutos</p>
+          <p>Especialidades: Traumatología, Medicina General</p>
+        </ion-label>
+        <ion-badge color="danger" slot="end">8 km</ion-badge>
+      </ion-item>
+    </ion-list>
+  
+  </ion-content>
+</ion-content>
+<ion-card-header>
+  <ion-card-title>Seleccionar Hospital</ion-card-title>
+</ion-card-header>
+<ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-select placeholder="Seleccione un Hospital" [(ngModel)]="selectedHospital">
+        <div slot="label">Hospital preferido<ion-text color="danger">(Obligatorio)</ion-text></div>
+        <ion-select-option value="Clinica-Santa-Maria">Clínica Santa María</ion-select-option>
+        <ion-select-option value="Hospital-Del-Sur">Hospital del Sur</ion-select-option>
+        <ion-select-option value="Hospital General">Hospital General</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  
+  <ion-button expand="block" color="secondary" (click)="aplicar()">Aplicar</ion-button>
+  
+  <ion-text *ngIf="error" color="danger">Por favor, seleccione un hospital.</ion-text>
+  
+<!-- Footer con diseño independiente -->
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

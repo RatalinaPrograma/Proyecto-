@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu">
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>Configuración de perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="center-content">
+    <h1 class="page-title">Actualizar Usuario</h1>
+
+    <ion-card class="card">
+      <ion-card-content>
+        <form (submit)="guardarCambios()">
+          <!-- Campo de Nombres -->
+          <ion-item class="input-item">
+            <ion-label position="floating">Nombres</ion-label>
+            <ion-input [(ngModel)]="persona.nombres" name="nombres" required></ion-input>
+          </ion-item>
+
+          <!-- Campo de Apellidos -->
+          <ion-item class="input-item">
+            <ion-label position="floating">Apellidos</ion-label>
+            <ion-input [(ngModel)]="persona.apellidos" name="apellidos" required></ion-input>
+          </ion-item>
+
+          <!-- Campo de RUT -->
+          <ion-item class="input-item">
+            <ion-label position="floating">RUT</ion-label>
+            <ion-input [(ngModel)]="persona.rut" name="rut" required></ion-input>
+          </ion-item>
+
+          <!-- Campo de Correo -->
+          <ion-item class="input-item">
+            <ion-label position="floating">Correo</ion-label>
+            <ion-input type="email" [(ngModel)]="persona.correo" name="correo" required></ion-input>
+          </ion-item>
+
+          <!-- Campo de Contraseña -->
+          <ion-item class="input-item">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="persona.clave" name="clave" required></ion-input>
+          </ion-item>
+
+          <!-- Botón de Registrar -->
+          <ion-button expand="block" class="register-button" type="submit">Guardar Cambios</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botón para regresar -->
+    <ion-button expand="block" class="back-button" routerLink="/home">Regresar</ion-button>
+  </div>
+</ion-content>
+
+
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

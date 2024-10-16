@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Recuperar contraseña</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true" class="background"
+  style="--background: url('/assets/imgs/emergencias-fondo.png') no-repeat center center / cover;">
+  <div class="center-content">
+    <h1 class="page-title">Recupera tu contraseña aquí.</h1>
+    <h4 class="text">Ingresando tu correo electronico, lo guardaremos y te contactaremos lo más pronto posible para
+      solucionarlo!</h4>
+    <ion-card class="card">
+      <ion-card-content>
+        <ion-item class="input-item">
+          <ion-label position="floating">Correo Electrónico</ion-label>
+          <ion-input type="email" required></ion-input>
+        </ion-item>
+        <ion-button expand="block" class="send-button">Enviar</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-item>
+      <ion-card>
+        <img alt="Paramedicos" src="/assets/img/soporte.png" />
+        <ion-card-header>
+          <ion-card-title>Pulse Track</ion-card-title>
+          <ion-card-subtitle>Conexión en tiempo real, conexión médica ideal</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          ¡Te ayudamos lo más pronto posible!.
+        </ion-card-content>
+      </ion-card>
+
+    </ion-item>
+
+    <ion-button expand="block" class="back-button" routerLink="/login-paramedico">Regresar a Iniciar Sesión</ion-button>
+  </div>
+</ion-content>

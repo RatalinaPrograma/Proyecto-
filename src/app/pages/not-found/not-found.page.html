@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Página no encontrada</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="error-page-content">
+  <div class="error-container">
+    <ion-title size="large" class="ops">Oops!</ion-title>
+    <p class="error-message">Lo sentimos, la página que buscas no existe.</p>
+    <ion-icon name="sad-outline" class="error-icon" ></ion-icon>
+    <ion-button expand="block" routerLink="/home" routerDirection="root" class="back-home-button">
+      Volver al Inicio
+    </ion-button>
+  </div>
+</ion-content>
+

@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>CRUD PACIENTES</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let paciente of pacientes" class="paciente-card">
+    <ion-card-header>
+      <ion-card-title>{{ paciente.nombre }}</ion-card-title>
+      <ion-card-subtitle>Rut: {{ paciente.rut }}</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <p><strong>Fecha de Nacimiento:</strong> {{ paciente.f_nacimiento | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Edad:</strong> {{ calcularEdad(paciente.f_nacimiento) }} años</p>
+      <p><strong>Género:</strong> {{ paciente.idGenero }}</p>
+      <p><strong>Télefono de Contacto:</strong> {{ paciente.telefono_contacto }}</p>
+    </ion-card-content>
+  
+    <ion-button fill="clear" (click)="eliminarPacientes(paciente.rut)">Eliminar</ion-button>
+    <ion-button fill="clear" (click)="modificarPacientes(paciente.rut)">Modificar</ion-button>
+  </ion-card>
+</ion-content>
+
+
+<ion-footer class="custom-footer">
+  <ion-button expand="block" (click)="verReporte()">
+    <ion-icon name="document-text-outline"></ion-icon>
+    <ion-label>Menú principal</ion-label>
+  </ion-button>
+</ion-footer>

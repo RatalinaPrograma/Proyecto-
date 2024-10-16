@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/ev-nivelurgencia"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Causa de emergencia</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-content>
+
+    <!-- Selección o Descripción del Motivo de la Llamada -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Motivo de la Llamada</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Seleccionar Motivo</ion-label>
+          <ion-select placeholder="Seleccione el motivo" [(ngModel)]="motivo">
+            <ion-select-option value="emergencia">Emergencia</ion-select-option>
+            <ion-select-option value="seguimiento">Seguimiento</ion-select-option>
+            <ion-select-option value="otro">Otro</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Descripción del Motivo</ion-label>
+          <ion-textarea placeholder="Describa el motivo de la llamada si es necesario" [(ngModel)]="descripcionMotivo"></ion-textarea>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  
+    <!-- Campo para Notas Adicionales -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Notas Adicionales</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Notas</ion-label>
+          <ion-textarea placeholder="Ingrese cualquier nota adicional sobre la llamada" [(ngModel)]="notas"></ion-textarea>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  
+    <!-- Botón para Guardar -->
+
+      <ion-toolbar>
+        <ion-button expand="block" color="primary" (click)="guardarDetalles()">Siguente</ion-button>
+      </ion-toolbar>
+
+
+  </ion-content>
+</ion-content>
+
+
+<!-- Footer con diseño independiente -->
+<ion-footer class="custom-footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/mapa-vivo" routerDirection="root">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Ver Mapa en Vivo</ion-label>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" fill="clear" routerLink="/login-paramedico" routerDirection="root">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

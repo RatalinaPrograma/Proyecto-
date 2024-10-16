@@ -1,0 +1,143 @@
+ion-toolbar {
+  --background: #0d47a1;
+  --color: white;
+  text-align: center;
+  font-size: 30px;
+  .logo-img {
+    width: 50px; 
+    height: 50px; 
+    margin-right: 5%;
+  }
+}
+ion-menu {
+  --background: #e3f2fd; 
+}
+
+ion-item {
+  --background: transparent; 
+  --color: #0d47a1; 
+}
+
+ion-icon {
+  color: #0d47a1; 
+}
+
+
+ion-content.background {
+  --background: url('/assets/imgs/emergencias-fondo.png') no-repeat center center / cover;
+}
+
+#reloj {
+  font-size: 2em;
+  font-weight: bold;
+  color: #0d47a1;
+  text-align: center;
+  margin-top: 20px;
+}
+
+
+ion-card-header[color="danger"] {
+  --background: #d32f2f;
+  --color: white; 
+}
+
+
+ion-card {
+  --background: rgba(255, 255, 255, 0.9); 
+  --border-radius: 12px; 
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+}
+
+ion-card-title {
+  font-weight: bold;
+  color: #0d47a1; 
+}
+
+ion-label h2 {
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+
+ion-button.btn-azul-claro {
+  --background: #64b5f6;
+  --color: #1a237e; 
+}
+
+
+ion-button.btn-verde-claro {
+  --background: #81c784;
+  --color: #1b5e20; 
+}
+
+
+ion-button.btn-aqua {
+  --background: #4dd0e1;
+  --color: #004d40; 
+}
+
+
+ion-button.btn-verde-menta {
+  --background: #80cbc4;
+  --color: #004d40; 
+}
+
+
+ion-button.btn-azul-suave {
+  --background: #64b5f6;
+  --color: #1a237e;
+}
+
+
+ion-button.btn-verde-pastel {
+  --background: #aed581;
+  --color: #33691e; 
+}
+
+
+ion-button.btn-turquesa-claro {
+  --background: #4db6ac;
+  --color: #004d40; 
+}
+
+
+ion-button.btn-verde-agua {
+  --background: #a5d6a7;
+  --color: #1b5e20; 
+}
+
+
+ion-button {
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
+  --padding: 12px 24px;
+  font-weight: bold;
+}
+
+
+.custom-footer {
+  --background: #f8f9fa; 
+  border-top: 1px solid #e0e0e0; 
+  padding: 10px 0; 
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
+
+  ion-icon {
+    color: #007bff; 
+    font-size: 20px; 
+  }
+
+  ion-label {
+    color: #343a40; 
+    font-size: 14px; 
+    font-weight: 500; 
+    text-align: center; 
+  }
+
+  ion-button {
+    --background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
