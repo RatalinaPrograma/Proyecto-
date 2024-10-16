@@ -35,7 +35,7 @@ export class NuevaEmergenciaPage implements OnInit {
   guardarPaciente() {    
     this.baseDatos.agregarPaciente(this.paciente.nombre, this.paciente.f_nacimiento,this.paciente.idGenero,this.paciente.rut,this.paciente.telefono_contacto)
       .then( (res) => {
-        alert("EXITO");
+        alert("Paciente agregado con éxito");
         this.router.navigate(['/envio-info', this.paciente.rut]);
       })
       .catch( (error) => alert(`ERROR ${error}`));

@@ -121,12 +121,6 @@ export class ServiciobdService {
 
   // Agregar
 
-  
-
-
-
-
-
     operaciones!: string; 
 
   agregarSignosV(freq_cardiaca:number,presion_arterial:string,temp_corporal:number,sat_oxigeno:number,freq_respiratoria:number,condiciones:string, operaciones:string) {
@@ -143,17 +137,43 @@ export class ServiciobdService {
 
   // PACIENTE
 
-  agregarPaciente(nombre: string, f_nacimiento: Date, idGenero: number, rut: string, telefono_contacto: string) {
-    return this.database.executeSql('INSERT OR IGNORE INTO paciente (nombre, f_nacimiento, idGenero, rut, telefono_contacto) VALUES (?, ?, ?, ?, ?)', [nombre, f_nacimiento, idGenero, rut, telefono_contacto])
-      .then(res => {
-        this.AlertasService.presentAlert("Agregar paciente", "Paciente agregado correctamente.");
-
-      })
-      .catch(e => {
-        this.AlertasService.presentAlert("Agregar paciente", "Ocurrió un error: " + JSON.stringify(e));
-      });
+  agregarPaciente(
+    nombre: string, 
+    f_nacimiento: Date, 
+    idGenero: number, 
+    rut: string, 
+    telefono_contacto: string
+  ): Promise<any> {
+    return this.verificarPaciente(rut).then(existe => {
+      if (existe) {
+        // Si el paciente ya existe, mostramos una alerta
+        this.AlertasService.presentAlert(
+          "Agregar paciente", 
+          "El paciente con ese RUT ya está registrado."
+        );
+        return Promise.reject(new Error('Paciente ya registrado'));
+      }
+  
+      // Si no existe, lo agregamos a la base de datos
+      const query = `INSERT INTO paciente (nombre, f_nacimiento, idGenero, rut, telefono_contacto) VALUES (?, ?, ?, ?, ?)`;
+      return this.database.executeSql(query, [nombre, f_nacimiento, idGenero, rut, telefono_contacto])
+        .then(res => {
+          this.AlertasService.presentAlert(
+            "Agregar paciente", 
+            "Paciente agregado correctamente."
+          );
+          return { message: 'Paciente agregado', changes: res.rowsAffected };
+        });
+    }).catch(err => {
+      // Captura cualquier error que ocurra en el proceso
+      this.AlertasService.presentAlert(
+        "Agregar paciente", 
+        "Ocurrió un error: " + err.message
+      );
+      return Promise.reject(new Error(`Error al agregar el paciente: ${err.message}`));
+    });
   }
-
+  
 
   consultartablaPaciente(): Promise<Pacientes[]> {
     return this.database.executeSql('SELECT * FROM paciente', []).then(res => {
@@ -210,22 +230,30 @@ export class ServiciobdService {
   }
 
 
-  eliminarPaciente(rut: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const query = `DELETE FROM pacientes WHERE rut = ?`;
-      this.database.executeSql(query, [rut])
-        .then(res => {
-          if (res.rowsAffected > 0) {
-            resolve({ message: 'Paciente eliminado', changes: res.rowsAffected });
-          } else {
-            reject(new Error('No se encontró el paciente con el RUT proporcionado.'));
-          }
-        })
-        .catch(err => {
-          reject(new Error(`Error al eliminar el paciente: ${err.message}`));
-        });
+  verificarPaciente(rut: string): Promise<boolean> {
+    const query = `SELECT COUNT(*) as count FROM paciente WHERE rut = ?`;
+    return this.database.executeSql(query, [rut]).then(res => {
+      return res.rows.item(0).count > 0;
     });
   }
+  
+  eliminarPaciente(rut: string): Promise<any> {
+    return this.verificarPaciente(rut).then(existe => {
+      if (!existe) {
+        return Promise.reject(new Error('No se encontró el paciente con el RUT proporcionado.'));
+      }
+      const query = `DELETE FROM paciente WHERE rut = ?`;
+      return this.database.executeSql(query, [rut]).then(res => {
+        this.AlertasService.presentAlert("Eliminar paciente", "Paciente eliminado correctamente.");
+        return { message: 'Paciente eliminado', changes: res.rowsAffected };
+      });
+    }).catch(err => {
+      return Promise.reject(new Error(`Error al eliminar el paciente: ${err.message}`));
+    });
+  }
+  
+  
+  
 
 
 
