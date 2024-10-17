@@ -1,13 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>modificar-pacientes</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">modificar-pacientes</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<form (ngSubmit)="modificarPaciente()" #pacienteForm="ngForm">
+  <div>
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" [(ngModel)]="paciente.nombre" required>
+  </div>
+  <div>
+    <label for="f_nacimiento">Fecha de Nacimiento:</label>
+    <input type="date" id="f_nacimiento" name="f_nacimiento" [(ngModel)]="paciente.f_nacimiento" required>
+  </div>
+  <div>
+    <label for="idGenero">Género:</label>
+    <select id="idGenero" name="idGenero" [(ngModel)]="paciente.idGenero" required>
+      <option value="1">Masculino</option>
+      <option value="2">Femenino</option>
+      <option value="3">Otro</option>
+    </select>
+  </div>
+  <div>
+    <label for="rut">RUT:</label>
+    <input type="text" id="rut" name="rut" [(ngModel)]="paciente.rut" required>
+  </div>
+  <div>
+    <label for="telefono_contacto">Teléfono de Contacto:</label>
+    <input type="text" id="telefono_contacto" name="telefono_contacto" [(ngModel)]="paciente.telefono_contacto" required>
+  </div>
+  <button type="submit">Modificar Paciente</button>
+</form>

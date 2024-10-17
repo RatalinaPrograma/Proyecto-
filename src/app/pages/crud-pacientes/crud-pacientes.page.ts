@@ -1,23 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Pacientes } from '../services/pacientes';
 import { ServiciobdService } from '../services/serviciobd.service';
 import { AlertasService } from '../services/alertas.service';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-crud-pacientes',
   templateUrl: './crud-pacientes.page.html',
   styleUrls: ['./crud-pacientes.page.scss'],
 })
-export class CrudPacientesPage implements OnInit {
+export class CrudPacientesPage implements OnInit, OnDestroy, ViewWillEnter {
   pacientes: Pacientes[] = [];
+  private intervalId: any;
+
   constructor(
     private router: Router,
     private baseDatos: ServiciobdService
-   ) { }
+  ) { }
 
   ngOnInit() {
     this.listarPacientes();
+    this.startAutoRefresh();
+  }
+
+  ngOnDestroy() {
+    this.stopAutoRefresh();
+  }
+
+  ionViewWillEnter() {
+    this.listarPacientes();
+  }
+
+  startAutoRefresh() {
+    this.intervalId = setInterval(() => {
+      this.listarPacientes();
+    }, 120000); // Actualiza cada 2 minutos
+  }
+
+  stopAutoRefresh() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   listarPacientes() {
@@ -32,38 +56,30 @@ export class CrudPacientesPage implements OnInit {
       });
   }
 
-
-  verPacientes(){
+  verPacientes() {
     this.router.navigate(['/ver-pacientes']); 
   }
-  agregarPacientes(){
+
+  agregarPacientes() {
     this.router.navigate(['/agregar-pacientes']); 
   }
-  
+
   eliminarPacientes(rut: string) {
     if (!rut) {
-        alert('RUT no válido');
-        return;
+      alert('RUT no válido');
+      return;
     }
 
     if (confirm('¿Está seguro de que desea eliminar a este paciente?')) {
-        this.baseDatos.eliminarPaciente(rut)
+      this.baseDatos.eliminarPaciente(rut)
         .then((res) => {
-            this.listarPacientes();
+          this.listarPacientes();
         })
         .catch((error) => { 
-            alert(`ERROR ${error}`); 
+          alert(`ERROR ${error}`); 
         });
     }
-
-    this.baseDatos.eliminarPaciente(rut)
-    .then((res) => {
-        this.listarPacientes();
-    })
-    .catch((error) => { 
-        alert(`ERROR ${error}`); 
-    });
-}
+  }
 
   modificarPacientes(rut: string) {
     if (!rut) {
@@ -84,20 +100,18 @@ export class CrudPacientesPage implements OnInit {
       });
   }
 
-  verReporte(){
+  verReporte() {
     this.router.navigate(['/home']); 
   }
 
-  calcularEdad(f_nacimiento: Date){
+  calcularEdad(f_nacimiento: Date) {
     let hoy = new Date();
     let cumpleanos = new Date(f_nacimiento);
     let edad = hoy.getFullYear() - cumpleanos.getFullYear();
     let mes = hoy.getMonth() - cumpleanos.getMonth();
     if (mes < 0 || (mes === 0 && hoy.getDate() < cumpleanos.getDate())) {
-        edad--;
+      edad--;
     }
     return edad;
-
   }
-
 }

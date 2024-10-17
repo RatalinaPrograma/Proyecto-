@@ -1,0 +1,47 @@
+ion-header {
+    --background: var(--ion-color-primary);
+    ion-title {
+      color: white;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+  
+  ion-content {
+    --background: #f9f9f9;
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  
+    ion-item {
+      --background: white;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+  
+    .submit-button {
+      margin-top: 20px;
+      --background: var(--ion-color-success);
+      color: white;
+    }
+  }
+  
+  ion-footer {
+    ion-toolbar {
+      --background: var(--ion-color-light);
+  
+      ion-button {
+        margin-right: 16px;
+        font-weight: bold;
+      }
+  
+      ion-button[color='danger'] {
+        --background: var(--ion-color-danger);
+        color: white;
+      }
+    }
+  }
+  

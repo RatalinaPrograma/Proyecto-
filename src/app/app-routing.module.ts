@@ -124,7 +124,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/ver-hospital/ver-hospital.module').then( m => m.VerHospitalPageModule)
   },
   {
-    path: 'modificar-hospital',
+    path: 'modificar-hospital/:id',
     loadChildren: () => import('./pages/modificar-hospital/modificar-hospital.module').then( m => m.ModificarHospitalPageModule)
   },
   {

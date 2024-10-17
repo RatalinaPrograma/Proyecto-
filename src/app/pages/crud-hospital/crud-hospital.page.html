@@ -1,48 +1,40 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button menu="emergenciasMenu"></ion-menu-button>
+      <ion-menu-button menu="hospitalMenu"></ion-menu-button>
     </ion-buttons>
-    <ion-title>CRUD HOSPITAL</ion-title>
-    <ion-buttons slot="end">
-      <ion-img src="/assets/img/2.png" class="logo-img"></ion-img>
-    </ion-buttons>
+    <ion-title>CRUD HOSPITALES</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="background">
-  <div class="verbtn">
-    <ion-button class="btn-azul-suave" expand="block" (click)="verHospital()">
-      <ion-icon slot="start" name="eye"></ion-icon>
-      Ver Hospital
-    </ion-button>
-  </div>
-
-  <div class="agrbtn">
-    <ion-button class="btn-verde-claro" expand="block" (click)="agregarHospital()">
-      <ion-icon slot="start" name="add"></ion-icon>
+<ion-content>
+  <!-- Botón para agregar hospital -->
+  <div class="button-container">
+    <ion-button expand="block" (click)="agregarHospital()" color="success">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
       Agregar Hospital
     </ion-button>
   </div>
 
-  <div class="edbtn">
-    <ion-button class="btn-aqua" expand="block" (click)="modificarHospital()">
-      <ion-icon slot="start" name="create"></ion-icon>
-      Modificar Hospital
-    </ion-button>
-  </div>
+  <!-- Listado de hospitales -->
+  <ion-card *ngFor="let hospital of hospitales">
+    <ion-card-header>
+      <ion-card-title><strong>Hospital: </strong>{{ hospital.nombre }}</ion-card-title>
+    </ion-card-header>
 
-  <div class="elbtn">
-    <ion-button class="btn-verde-menta" expand="block" (click)="eliminarHospital()">
-      <ion-icon slot="start" name="trash"></ion-icon>
-      Eliminar Hospital
-    </ion-button>
-  </div>
+    <ion-card-content>
+      <p><strong>Dirección:</strong> {{ hospital.direccion }}</p>
+    </ion-card-content>
+
+    <ion-button fill="clear" (click)="eliminarHospital(hospital.idHospital)">Eliminar</ion-button>
+    <ion-button fill="clear" (click)="modificarHospital(hospital.idHospital)">Modificar</ion-button>
+  </ion-card>
 </ion-content>
 
-<ion-footer class="custom-footer">
-  <ion-button expand="block" (click)="verReporte()">
-    <ion-icon name="document-text-outline"></ion-icon>
-    <ion-label>Menú principal</ion-label>
-  </ion-button>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="irACrudHospital()">Volver al Menú</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-footer>
