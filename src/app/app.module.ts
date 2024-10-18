@@ -15,6 +15,8 @@ import { ServiciobdService } from './pages/services/serviciobd.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlertasService } from './pages/services/alertas.service';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +34,9 @@ import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ServiciobdService,AlertasService, SQLite // El servicio debe ir solo en 'providers'
+    ServiciobdService,AlertasService, SQLite, // El servicio debe ir solo en 'providers'
+    File,
+    FileOpener
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

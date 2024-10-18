@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { CrudUsuariosPage } from './crud-usuarios.page';
+import { RouterModule, Routes } from '@angular/router';
+import { CrudUsuariosPage } from './crud-usuarios.page';  // Importación correcta
 
 const routes: Routes = [
   {
     path: '',
-    component: CrudUsuariosPage
+    component: CrudUsuariosPage,
   }
 ];
 
