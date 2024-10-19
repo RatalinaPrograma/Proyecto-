@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { AlertasService } from '../services/alertas.service';
 import { ServiciobdService } from '../services/serviciobd.service';
+
 @Component({
   selector: 'app-register-paramedico',
   templateUrl: './register-paramedico.page.html',
   styleUrls: ['./register-paramedico.page.scss'],
 })
 export class RegisterParamedicoPage {
-  // Variables para almacenar los valores de los campos del formulario
   persona = {
     nombres: '',
     apellidos: '',
@@ -20,54 +20,54 @@ export class RegisterParamedicoPage {
   };
 
   constructor(
-    private serviciobd: ServiciobdService, 
-    private alertasService: AlertasService // Inyecta correctamente el servicio de alertas
+    private serviciobd: ServiciobdService,
+    private alertasService: AlertasService
   ) {}
 
-  // Función para validar el formulario
-  validarFormulario(): string {
-    // Validar campos vacíos
-    if (!this.persona.nombres || !this.persona.apellidos || !this.persona.rut || !this.persona.correo || !this.persona.clave) {
+  // Validación del formulario
+  private validarFormulario(): string {
+    if (!this.persona.nombres || !this.persona.apellidos || 
+        !this.persona.rut || !this.persona.correo || !this.persona.clave) {
       return 'Todos los campos son obligatorios.';
     }
 
-    // Validar formato del RUT (puedes ajustar la expresión regular según tus necesidades)
-    const rutValido = /^[0-9]+[-][0-9kK]{1}$/.test(this.persona.rut);
-    if (!rutValido) {
+    if (!/^[0-9]+[-][0-9kK]{1}$/.test(this.persona.rut)) {
       return 'El formato del RUT es inválido.';
     }
 
-    // Validar formato del correo
-    const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.persona.correo) && this.persona.correo.split('@').length === 2;
-    if (!correoValido) {
-      return 'El formato del correo electrónico es inválido o contiene más de un símbolo "@"';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.persona.correo)) {
+      return 'Formato de correo electrónico inválido.';
     }
 
-    // Validar longitud y formato de la contraseña
-    const contraseñaValida = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/.test(this.persona.clave);
-    if (!contraseñaValida) {
-      return 'La contraseña debe tener al menos 6 caracteres, incluyendo mayúsculas, minúsculas y caracteres especiales.';
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/.test(this.persona.clave)) {
+      return 'La contraseña debe tener al menos 6 caracteres, con mayúsculas, minúsculas y un carácter especial.';
     }
 
-    // Si todas las validaciones pasan, no retornar mensaje
-    return '';
+    return ''; // Sin errores
   }
 
-  // Asegúrate de que la función esté marcada como `async`
+  // Registro de usuario
   async onRegister() {
-    // Validar el formulario antes de registrar
     const mensajeError = this.validarFormulario();
     if (mensajeError) {
       this.alertasService.presentAlert('Error en registro', mensajeError);
       return;
     }
 
-    // Si la validación es exitosa, proceder con el registro
     const registrado = await this.serviciobd.register(this.persona);
-    if (registrado) {
-      this.alertasService.presentAlert('Registro exitoso', 'Usuario registrado correctamente');
-    } else {
-      this.alertasService.presentAlert('Error en registro', 'Hubo un error en el registro.');
-    }
+    const mensaje = registrado 
+      ? 'Usuario registrado correctamente.' 
+      : 'Hubo un error en el registro.';
+    const titulo = registrado ? 'Registro exitoso' : 'Error en registro';
+
+    this.alertasService.presentAlert(titulo, mensaje);
   }
+
+
+
+
+
+
+  
 }
+

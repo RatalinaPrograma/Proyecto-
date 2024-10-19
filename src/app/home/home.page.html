@@ -10,7 +10,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="background" id="emergenciasContent" style="--background: url('/assets/imgs/emergencias-fondo.png') no-repeat center center / cover;">
+<ion-content class="background" id="emergenciasContent"
+  style="--background: url('/assets/imgs/emergencias-fondo.png') no-repeat center center / cover;">
 
   <ion-title>
     <div id="reloj">{{horaActual}}</div>
@@ -51,7 +52,8 @@
         </ion-button>
       </ion-col>
       <ion-col size="12" size-md="4">
-        <ion-button expand="block" class="btn-turquesa-claro" routerLink="/detalles-caso-anterior" routerDirection="root">
+        <ion-button expand="block" class="btn-turquesa-claro" routerLink="/detalles-caso-anterior"
+          routerDirection="root">
           Detalles de Caso anterior
         </ion-button>
       </ion-col>
@@ -64,8 +66,15 @@
         <ion-button expand="block" class="btn-aqua" routerLink="/crud-pacientes" routerDirection="root">
           Crud Paciente
         </ion-button>
+      </ion-col>
+      <ion-col size="12" size-md="4">
         <ion-button expand="block" class="btn-aqua" routerLink="/crud-hospital" routerDirection="root">
           Crud Hospital
+        </ion-button>
+      </ion-col>
+      <ion-col size="12" size-md="4">
+        <ion-button expand="block" class="btn-aqua" routerLink="/crud-usuarios" routerDirection="root">
+          Crud Usuarios
         </ion-button>
       </ion-col>
     </ion-row>
@@ -78,7 +87,7 @@
         <ion-card-title>Pulse Track</ion-card-title>
         <ion-card-subtitle>Conexión en tiempo real, conexión médica ideal.</ion-card-subtitle>
       </ion-card-header>
-    
+
       <ion-card-content>
         La aplicación que te ayuda a agilizar la salud en Chile.
       </ion-card-content>
@@ -93,9 +102,8 @@
     <ion-row>
       <!-- Botón Ver Perfil -->
       <ion-col>
-        <ion-button expand="block" fill="clear" routerLink="/ajustes-perfil-paramedico" routerDirection="root">
-          <ion-icon name="person-outline"></ion-icon>
-          <ion-label>Ver Perfil</ion-label>
+        <ion-button expand="block" fill="clear" (click)="irmodificarusuario()" routerDirection="root">
+          Modificar Mi Perfil
         </ion-button>
       </ion-col>
 
@@ -117,5 +125,3 @@
     </ion-row>
   </ion-grid>
 </ion-footer>
-
-

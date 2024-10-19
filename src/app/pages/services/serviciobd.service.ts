@@ -12,9 +12,39 @@ import { Hospital } from './hospital';
   providedIn: 'root'
 })
 export class ServiciobdService {
+  executeSql(query: string, arg1: number[]) {
+    throw new Error('Method not implemented.');
+  }
   sqliteService: any;
   presentToast(arg0: string) {
     throw new Error('Method not implemented.');
+  }
+
+  // Verificar si un usuario existe por RUT
+  private async verificarUsuario(rut: string): Promise<boolean> {
+    const query = 'SELECT COUNT(1) as count FROM persona WHERE rut = ?';
+    try {
+      const res = await this.database.executeSql(query, [rut]);
+      return res.rows.item(0).count > 0;
+    } catch (error) {
+      console.error('Error al verificar usuario', error);
+      throw new Error('No se pudo verificar el usuario');
+    }
+  }
+
+  public async convertirBlobABase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        resolve(base64String);
+      };
+      reader.onerror = (error) => {
+        console.error('Error al convertir BLOB a Base64:', error);
+        reject(error);
+      };
+    });
   }
   public database!: SQLiteObject;
   isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -295,36 +325,36 @@ export class ServiciobdService {
   }
 
   modificarHospital(
-    idHospital: number, 
-    nombre: string, 
+    idHospital: number,
+    nombre: string,
     direccion: string
   ): Promise<any> {
     console.log('Modificando hospital con ID:', idHospital); // Debugging
-  
+
     return this.verificarHospital(idHospital).then((existe) => {
       if (!existe) {
         this.AlertasService.presentAlert(
-          'Modificar hospital', 
+          'Modificar hospital',
           'El hospital con ese ID no está registrado.'
         );
         return Promise.reject(new Error('Hospital no registrado'));
       }
-  
+
       const query = `UPDATE hospital SET nombre = ?, direccion = ? WHERE idHospital = ?`;
       console.log('Ejecutando consulta SQL:', query); // Debugging
-  
+
       return this.database.executeSql(query, [nombre, direccion, idHospital])
         .then((res) => {
           console.log('Resultado de la modificación:', res); // Verifica si se realizó la modificación
           if (res.rowsAffected > 0) {
             this.AlertasService.presentAlert(
-              'Modificar hospital', 
+              'Modificar hospital',
               'Hospital modificado correctamente.'
             );
             return { message: 'Hospital modificado', changes: res.rowsAffected };
           } else {
             this.AlertasService.presentAlert(
-              'Modificar hospital', 
+              'Modificar hospital',
               'No se realizaron cambios.'
             );
             return { message: 'No se realizaron cambios', changes: res.rowsAffected };
@@ -333,14 +363,14 @@ export class ServiciobdService {
     }).catch((err) => {
       console.error('Error al modificar el hospital:', err); // Debugging
       this.AlertasService.presentAlert(
-        'Modificar hospital', 
-        'Ocurrió un error: ' + err.message
+        'Modificar hospital',
+        'Ocurrió un error: ' + (err as Error).message
       );
       return Promise.reject(new Error(`Error al modificar el hospital: ${err.message}`));
     });
   }
-  
-  
+
+
 
   obtenerHospital(idHospital: number): Promise<any> {
     const query = `SELECT * FROM hospital WHERE idHospital = ?`;
@@ -355,18 +385,25 @@ export class ServiciobdService {
 
 
   ///////////////////////////////////////////////////////////////////////////
-  // Función para registrar un usuario
+  // Función para registrar un usuario con validaciones
   async register(persona: any): Promise<boolean> {
-    const query = `INSERT INTO persona (nombres, apellidos, rut, correo, clave, telefono, foto, idRol) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    if (!this.validarDatos(persona)) {
+      this.AlertasService.presentAlert('Error en registro', 'Datos incompletos o inválidos');
+      return false;
+    }
+
+    const query = `
+    INSERT INTO persona (nombres, apellidos, rut, correo, clave, telefono, foto, idRol) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `;
     const values = [
-      persona.nombres,
-      persona.apellidos,
-      persona.rut,
-      persona.correo,
+      persona.nombres.trim(),
+      persona.apellidos.trim(),
+      persona.rut.trim(),
+      persona.correo.trim(),
       persona.clave,
       persona.telefono,
-      persona.foto,
+      persona.foto || null,
       persona.idRol,
     ];
 
@@ -376,86 +413,148 @@ export class ServiciobdService {
       return true;
     } catch (error) {
       console.error('Error al registrar usuario', error);
-      this.AlertasService.presentAlert('Error en registro', 'El registro falló');
+      this.AlertasService.presentAlert('Error en registro', 'El registro falló. Verifique los datos');
       return false;
     }
   }
 
-  // Función para iniciar sesión
+  // Obtener persona por ID
+// Servicio: obtenerUsuario() en ServiciobdService
+async obtenerUsuario(idPersona: number): Promise<any> {
+  const query = 'SELECT * FROM persona WHERE idPersona = ?';
+
+  try {
+    const res = await this.database.executeSql(query, [idPersona]);
+    if (res.rows.length > 0) {
+      console.log('Usuario encontrado:', res.rows.item(0)); // Depuración
+      return res.rows.item(0); // Retorna el primer registro encontrado
+    } else {
+      console.warn('No se encontró ningún usuario con el ID proporcionado.'); // Depuración
+      return null; // No se encontró el usuario
+    }
+  } catch (error) {
+    console.error('Error al obtener usuario:', error);
+    throw error; // Lanza el error para manejarlo en el componente
+  }
+}
+
+
+  // Validación de los campos del usuario
+  private validarDatos(persona: any): boolean {
+    const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const rutRegex = /^[0-9]+-[0-9kK]{1}$/;
+
+    return (
+      persona.nombres &&
+      persona.apellidos &&
+      rutRegex.test(persona.rut) &&
+      correoRegex.test(persona.correo) &&
+      persona.clave &&
+      persona.idRol !== undefined
+    );
+  }
+
+  // Función mejorada para iniciar sesión
   async login(rut: string, password: string): Promise<any> {
+    if (!rut || !password) {
+      this.AlertasService.presentAlert('Error', 'RUT y contraseña son obligatorios');
+      return null;
+    }
+
     const query = `SELECT * FROM persona WHERE rut = ? AND clave = ?`;
     try {
-      const res = await this.database.executeSql(query, [rut, password]);
+      const res = await this.database.executeSql(query, [rut.trim(), password]);
       if (res.rows.length > 0) {
-        return res.rows.item(0); // Retorna los datos del usuario si encuentra una coincidencia
+        return res.rows.item(0); // Usuario encontrado
       } else {
+        this.AlertasService.presentAlert('Error', 'Credenciales incorrectas');
         return null;
       }
     } catch (error) {
       console.error('Error durante el login', error);
+      this.AlertasService.presentAlert('Error', 'No se pudo iniciar sesión. Inténtelo más tarde');
       return null;
     }
   }
 
-
-  // Obtener los datos del usuario desde la base de datos
-  obtenerUsuario(idPersona: number): Promise<any> {
-    const query = 'SELECT * FROM persona WHERE idPersona = ?';
-    return this.database.executeSql(query, [idPersona])
-      .then(res => {
-        if (res.rows.length > 0) {
-          return {
-            idPersona: res.rows.item(0).idPersona,
-            nombres: res.rows.item(0).nombres,
-            apellidos: res.rows.item(0).apellidos,
-            rut: res.rows.item(0).rut,
-            correo: res.rows.item(0).correo,
-            clave: res.rows.item(0).clave,
-            telefono: res.rows.item(0).telefono,
-            foto: res.rows.item(0).foto
-          };
-        }
-        return null;
-      })
-      .catch(error => {
-        console.error('Error al obtener el usuario', error);
-        throw error;
-      });
+   // Crear tabla si no existe
+   crearTablaPersona() {
+    const query = `CREATE TABLE IF NOT EXISTS persona(
+      idPersona INTEGER PRIMARY KEY AUTOINCREMENT,
+      nombres VARCHAR(100) NOT NULL,
+      apellidos VARCHAR(100) NOT NULL,
+      rut VARCHAR(50) NOT NULL UNIQUE,
+      correo VARCHAR(100) NOT NULL UNIQUE,
+      clave VARCHAR(100) NOT NULL,
+      telefono VARCHAR(15),
+      foto BLOB,
+      idRol INTEGER,
+      FOREIGN KEY (idRol) REFERENCES rol(idrol)
+    );`;
+    return this.database.executeSql(query, []);
   }
 
-  async actualizarUsuario(persona: any) {
-    const db = await this.sqliteService.getDatabase();
-    await db.executeSql(
-      `UPDATE persona 
-       SET nombres = ?, apellidos = ?, rut = ?, correo = ?, clave = ?, 
-           telefono = ?, foto = ?, idRol = ?
-       WHERE idPersona = ?`,
-      [
-        persona.nombres,
-        persona.apellidos,
-        persona.rut,
-        persona.correo,
-        persona.clave,
-        persona.telefono,
-        persona.foto, // Foto en formato BLOB
-        persona.idRol,
-        persona.idPersona,
-      ]
-    );
-  }
-
-  private async convertirBlobABase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        resolve(base64String);
-      };
-      reader.onerror = (error) => {
-        console.error('Error al convertir BLOB a Base64:', error);
-        reject(error);
-      };
+  // Listar personas
+  listarPersonas(): Promise<any[]> {
+    const query = 'SELECT * FROM persona';
+    return this.database.executeSql(query, []).then((res) => {
+      let personas: any[] = [];
+      for (let i = 0; i < res.rows.length; i++) {
+        personas.push(res.rows.item(i));
+      }
+      return personas;
     });
   }
+
+  // Agregar persona
+  agregarPersona(persona: any) {
+    const query = `INSERT INTO persona (nombres, apellidos, rut, correo, clave, telefono, foto, idRol) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const values = [persona.nombres, persona.apellidos, persona.rut, persona.correo, persona.clave, 
+                    persona.telefono, persona.foto, persona.idRol];
+    return this.database.executeSql(query, values);
+  }
+
+  // Modificar persona
+  modificarPersona(idPersona: number, persona: any) {
+    const query = `
+      UPDATE persona 
+      SET nombres = ?, apellidos = ?, rut = ?, correo = ?, 
+          clave = ?, telefono = ?, foto = ?, idRol = ? 
+      WHERE idPersona = ?`;
+    
+    const values = [
+      persona.nombres, persona.apellidos, persona.rut, persona.correo, 
+      persona.clave, persona.telefono, persona.foto, persona.idRol, idPersona
+    ];
+  
+    return this.database.executeSql(query, values);
+  }
+  
+
+  // Eliminar persona
+  eliminarPersona(idPersona: number) {
+    const query = 'DELETE FROM persona WHERE idPersona = ?';
+    return this.database.executeSql(query, [idPersona]);
+  }
+
+  async listarUsuarios(): Promise<any[]> {
+    const query = 'SELECT * FROM persona';
+    try {
+      const res = await this.database.executeSql(query, []);
+      let usuarios: any[] = [];
+      for (let i = 0; i < res.rows.length; i++) {
+        usuarios.push(res.rows.item(i));
+      }
+      console.log('Usuarios encontrados:', usuarios); // Depuración
+      return usuarios;
+    } catch (error) {
+      console.error('Error al listar usuarios:', error);
+      throw error;
+    }
+  }
+  
+
+
 }
+

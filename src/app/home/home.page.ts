@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,8 +14,7 @@ export class HomePage implements OnInit {
     { titulo: 'Incendio en Edificio A', descripcion: 'Se reporta un incendio en el cuarto piso.' },
     { titulo: 'Accidente de Tráfico', descripcion: 'Colisión múltiple en la autopista.' }
   ];
-
-  constructor(private navCtrl: NavController) {}
+  constructor(private navCtrl: NavController, private router: Router) {}
 
   ngOnInit() {
     this.actualizarHora();
@@ -73,4 +73,14 @@ export class HomePage implements OnInit {
     // Navega a la página de soporte técnico
     this.navCtrl.navigateRoot('/soporte-tecnico');
   }
+
+  irmodificarusuario() {
+    const idUsuario = sessionStorage.getItem('idUsuario'); // Obtener ID del usuario autenticado
+    if (idUsuario) {
+      this.router.navigate(['/ajustes-perfil-paramedico', idUsuario]); // Navegar al perfil del usuario
+    } else {
+      console.error('No se encontró el ID del usuario en la sesión.');
+    }
+  }
 }
+
