@@ -51,37 +51,48 @@ export class ServiciobdService {
   private dbIsCreated: boolean = false;
 
   // Sentencias SQL de creación de tablas
-  tablaAmbulancia: string = "CREATE TABLE IF NOT EXISTS ambulancia(idambulancia INTEGER PRIMARY KEY AUTOINCREMENT, patente VARCHAR(100) NOT NULL, equipada BOOLEAN NOT NULL, fec_mant DATE NOT NULL, idestado INTEGER NOT NULL, FOREIGN KEY (idestado) REFERENCES estado(idestado));";
-
   tablaEstado: string = "CREATE TABLE IF NOT EXISTS estado(idestado INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL);";
+
+  tablaRol: string = "CREATE TABLE IF NOT EXISTS rol(idrol INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL);";
+
+  tablaGenero: string = "CREATE TABLE IF NOT EXISTS genero(idgenero INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL);";
+
+  tablaPersona: string = "CREATE TABLE IF NOT EXISTS persona(idPersona INTEGER PRIMARY KEY AUTOINCREMENT, nombres VARCHAR(100) NOT NULL, apellidos VARCHAR(100) NOT NULL, rut VARCHAR(50) NOT NULL UNIQUE, correo VARCHAR(100) NOT NULL UNIQUE, clave VARCHAR(100) NOT NULL, telefono VARCHAR(15), foto BLOB, idRol INTEGER, FOREIGN KEY (idRol) REFERENCES rol(idrol));";
 
   tablaHospital: string = "CREATE TABLE IF NOT EXISTS hospital(idHospital INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, direccion VARCHAR(255) NOT NULL);";
 
-  tablaSignosV: string = "CREATE TABLE IF NOT EXISTS signos_vitales(idSigno INTEGER PRIMARY KEY AUTOINCREMENT, freq_cardiaca INTEGER, presion_arterial VARCHAR(10), temp_corporal INTEGER, sat_oxigeno INTEGER, freq_respiratoria INTEGER, condiciones TEXT, operaciones TEXT);";
-
-  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle(idDetalle INTEGER PRIMARY KEY AUTOINCREMENT, idEmerg INTEGER, idPaciente INTEGER, FOREIGN KEY (idEmerg) REFERENCES emergencia(idEmerg), FOREIGN KEY (idPaciente) REFERENCES paciente(idPaciente));";
-
-  tablaDetalle_S: string = "CREATE TABLE IF NOT EXISTS detalle_s(idDetalleS INTEGER PRIMARY KEY AUTOINCREMENT, idDetalle INTEGER, idSigno INTEGER, valor VARCHAR(100), unidad VARCHAR(50), FOREIGN KEY (idDetalle) REFERENCES detalle(idDetalle), FOREIGN KEY (idSigno) REFERENCES signos_vitales(idSigno));";
-
-  tablaEmergencia: string = "CREATE TABLE IF NOT EXISTS emergencia(idEmerg INTEGER PRIMARY KEY AUTOINCREMENT, fecha_emer DATE NOT NULL, motivo VARCHAR(255), desc_motivo TEXT, observaciones TEXT, estado VARCHAR(50), f_recepcion DATE, idambulancia INTEGER, idTriage INTEGER, idHospital INTEGER, FOREIGN KEY (idambulancia) REFERENCES ambulancia(idambulancia), FOREIGN KEY (idTriage) REFERENCES triage(idTriage), FOREIGN KEY (idHospital) REFERENCES hospital(idHospital));";
+  tablaAmbulancia: string = "CREATE TABLE IF NOT EXISTS ambulancia(idambulancia INTEGER PRIMARY KEY AUTOINCREMENT, patente VARCHAR(100) NOT NULL, equipada BOOLEAN NOT NULL, fec_mant DATE NOT NULL, idestado INTEGER NOT NULL, FOREIGN KEY (idestado) REFERENCES estado(idestado));";
 
   tablaTriage: string = "CREATE TABLE IF NOT EXISTS triage(idTriage INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL);";
 
   tablaPaciente: string = "CREATE TABLE IF NOT EXISTS paciente(idPaciente INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, f_nacimiento DATE NOT NULL, idGenero INTEGER, rut VARCHAR(50) NOT NULL UNIQUE, telefono_contacto VARCHAR(15), FOREIGN KEY (idGenero) REFERENCES genero(idgenero));";
 
-  tablaPersona: string = "CREATE TABLE IF NOT EXISTS persona(idPersona INTEGER PRIMARY KEY AUTOINCREMENT, nombres VARCHAR(100) NOT NULL, apellidos VARCHAR(100) NOT NULL, rut VARCHAR(50) NOT NULL UNIQUE, correo VARCHAR(100) NOT NULL UNIQUE, clave VARCHAR(100) NOT NULL, telefono VARCHAR(15), foto BLOB, idRol INTEGER, FOREIGN KEY (idRol) REFERENCES rol(idrol));";
-
-  tablaRol: string = "CREATE TABLE IF NOT EXISTS rol(idrol INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL);";
+  tablaPersonal: string = "CREATE TABLE IF NOT EXISTS personal(idpersonal INTEGER PRIMARY KEY AUTOINCREMENT, idHospital INTEGER, idPersona INTEGER, FOREIGN KEY (idHospital) REFERENCES hospital(idHospital), FOREIGN KEY (idPersona) REFERENCES persona(idPersona));";
 
   tablaTrabajador: string = "CREATE TABLE IF NOT EXISTS trabajador(idTrab INTEGER PRIMARY KEY AUTOINCREMENT, idambulancia INTEGER, idPersona INTEGER, FOREIGN KEY (idambulancia) REFERENCES ambulancia(idambulancia), FOREIGN KEY (idPersona) REFERENCES persona(idPersona));";
 
-  tablaGenero: string = "CREATE TABLE IF NOT EXISTS genero(idgenero INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL);";
+  tablaEmergencia: string = "CREATE TABLE IF NOT EXISTS emergencia(idEmerg INTEGER PRIMARY KEY AUTOINCREMENT, fecha_emer DATE NOT NULL, motivo VARCHAR(255), desc_motivo TEXT, observaciones TEXT, estado VARCHAR(50), f_recepcion DATE, idambulancia INTEGER, idTriage INTEGER, idHospital INTEGER, FOREIGN KEY (idambulancia) REFERENCES ambulancia(idambulancia), FOREIGN KEY (idTriage) REFERENCES triage(idTriage), FOREIGN KEY (idHospital) REFERENCES hospital(idHospital));";
 
-  tablaPersonal: string = "CREATE TABLE IF NOT EXISTS personal(idpersonal INTEGER PRIMARY KEY AUTOINCREMENT, idHospital INTEGER, FOREIGN KEY (idHospital) REFERENCES hospital(idHospital), idPersona INTEGER, FOREIGN KEY (idPersona) REFERENCES persona(idPersona));";
+  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle(idDetalle INTEGER PRIMARY KEY AUTOINCREMENT, idEmerg INTEGER, idPaciente INTEGER, FOREIGN KEY (idEmerg) REFERENCES emergencia(idEmerg), FOREIGN KEY (idPaciente) REFERENCES paciente(idPaciente));";
 
-  listadoPacientes: BehaviorSubject<Pacientes[]> = new BehaviorSubject<Pacientes[]>([]);
-  listadoTrabajador: BehaviorSubject<Trabajador[]> = new BehaviorSubject<Trabajador[]>([]);
-  listadoRol: BehaviorSubject<Rol[]> = new BehaviorSubject<Rol[]>([]);
+  tablaSignosV: string = "CREATE TABLE IF NOT EXISTS signos_vitales(idSigno INTEGER PRIMARY KEY AUTOINCREMENT, freq_cardiaca INTEGER, presion_arterial VARCHAR(10), temp_corporal INTEGER, sat_oxigeno INTEGER, freq_respiratoria INTEGER, condiciones TEXT, operaciones TEXT);";
+
+  tablaDetalle_S: string = "CREATE TABLE IF NOT EXISTS detalle_s(idDetalleS INTEGER PRIMARY KEY AUTOINCREMENT, idDetalle INTEGER, idSigno INTEGER, valor VARCHAR(100), unidad VARCHAR(50), FOREIGN KEY (idDetalle) REFERENCES detalle(idDetalle), FOREIGN KEY (idSigno) REFERENCES signos_vitales(idSigno));";
+
+  listadoPacientes: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoTrabajador: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoRol: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoPersona: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoGenero: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoPersonal: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoAmbulancia: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoEstado: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoHospital: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoSignosV: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoDetalle: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoEmergencia: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  listadoTriage: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+
 
   constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private AlertasService: AlertasService) {
     this.crearBD();
@@ -419,24 +430,24 @@ export class ServiciobdService {
   }
 
   // Obtener persona por ID
-// Servicio: obtenerUsuario() en ServiciobdService
-async obtenerUsuario(idPersona: number): Promise<any> {
-  const query = 'SELECT * FROM persona WHERE idPersona = ?';
+  // Servicio: obtenerUsuario() en ServiciobdService
+  async obtenerUsuario(idPersona: number): Promise<any> {
+    const query = 'SELECT * FROM persona WHERE idPersona = ?';
 
-  try {
-    const res = await this.database.executeSql(query, [idPersona]);
-    if (res.rows.length > 0) {
-      console.log('Usuario encontrado:', res.rows.item(0)); // Depuración
-      return res.rows.item(0); // Retorna el primer registro encontrado
-    } else {
-      console.warn('No se encontró ningún usuario con el ID proporcionado.'); // Depuración
-      return null; // No se encontró el usuario
+    try {
+      const res = await this.database.executeSql(query, [idPersona]);
+      if (res.rows.length > 0) {
+        console.log('Usuario encontrado:', res.rows.item(0)); // Depuración
+        return res.rows.item(0); // Retorna el primer registro encontrado
+      } else {
+        console.warn('No se encontró ningún usuario con el ID proporcionado.'); // Depuración
+        return null; // No se encontró el usuario
+      }
+    } catch (error) {
+      console.error('Error al obtener usuario:', error);
+      throw error; // Lanza el error para manejarlo en el componente
     }
-  } catch (error) {
-    console.error('Error al obtener usuario:', error);
-    throw error; // Lanza el error para manejarlo en el componente
   }
-}
 
 
   // Validación de los campos del usuario
@@ -477,8 +488,8 @@ async obtenerUsuario(idPersona: number): Promise<any> {
     }
   }
 
-   // Crear tabla si no existe
-   crearTablaPersona() {
+  // Crear tabla si no existe
+  crearTablaPersona() {
     const query = `CREATE TABLE IF NOT EXISTS persona(
       idPersona INTEGER PRIMARY KEY AUTOINCREMENT,
       nombres VARCHAR(100) NOT NULL,
@@ -510,8 +521,8 @@ async obtenerUsuario(idPersona: number): Promise<any> {
   agregarPersona(persona: any) {
     const query = `INSERT INTO persona (nombres, apellidos, rut, correo, clave, telefono, foto, idRol) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-    const values = [persona.nombres, persona.apellidos, persona.rut, persona.correo, persona.clave, 
-                    persona.telefono, persona.foto, persona.idRol];
+    const values = [persona.nombres, persona.apellidos, persona.rut, persona.correo, persona.clave,
+    persona.telefono, persona.foto, persona.idRol];
     return this.database.executeSql(query, values);
   }
 
@@ -522,15 +533,15 @@ async obtenerUsuario(idPersona: number): Promise<any> {
       SET nombres = ?, apellidos = ?, rut = ?, correo = ?, 
           clave = ?, telefono = ?, foto = ?, idRol = ? 
       WHERE idPersona = ?`;
-    
+
     const values = [
-      persona.nombres, persona.apellidos, persona.rut, persona.correo, 
+      persona.nombres, persona.apellidos, persona.rut, persona.correo,
       persona.clave, persona.telefono, persona.foto, persona.idRol, idPersona
     ];
-  
+
     return this.database.executeSql(query, values);
   }
-  
+
 
   // Eliminar persona
   eliminarPersona(idPersona: number) {
@@ -553,7 +564,7 @@ async obtenerUsuario(idPersona: number): Promise<any> {
       throw error;
     }
   }
-  
+
 
 
 }
