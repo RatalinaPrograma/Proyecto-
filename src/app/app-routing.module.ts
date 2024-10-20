@@ -41,7 +41,10 @@ const routes: Routes = [
   },
   {
     path: 'mapa-vivo',
-    loadChildren: () => import('./pages/mapa-vivo/mapa-vivo.module').then( m => m.MapaVivoPageModule)
+    loadChildren: () =>
+      import('./pages/mapa-vivo/mapa-vivo.module').then(
+        (m) => m.MapaVivoPageModule
+      ),
   },
   {
     path: 'historial-casos',

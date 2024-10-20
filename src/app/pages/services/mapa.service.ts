@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MapaService {
-  private apiUrl = 'https://mapa-1.onrender.com/api/mapa'; // URL de tu API
-
   constructor(private http: HttpClient) {}
 
-  obtenerMarcadores(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
+  obtenerCoordenadas() {
+    // Aquí puedes usar una API para obtener coordenadas si es necesario
+    return this.http.get('https://mapa-1.onrender.com/api/mapa');
   }
 }

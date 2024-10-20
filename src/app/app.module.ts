@@ -17,7 +17,7 @@ import { AlertasService } from './pages/services/alertas.service';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -30,7 +30,8 @@ import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
     MatCheckboxModule,
     CommonModule,
     MatRadioModule,
-    BrowserAnimationsModule, // Incluye solo módulos aquí
+    BrowserAnimationsModule,
+    HttpClientModule, // Incluye solo módulos aquí
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

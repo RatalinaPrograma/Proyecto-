@@ -1,7 +1,27 @@
+.logo-img {
+  width: 40px;
+  height: auto;
+}
+
+
+ion-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
 #map {
-  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh; /* Asegura que ocupe la altura completa de la pantalla */
   width: 100%;
 }
+
+
+
+
 
 .custom-footer {
   --background: #f8f9fa; 

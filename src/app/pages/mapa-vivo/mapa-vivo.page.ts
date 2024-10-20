@@ -1,47 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { MapaService } from '../services/mapa.service';
+import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
+
 @Component({
   selector: 'app-mapa-vivo',
   templateUrl: './mapa-vivo.page.html',
   styleUrls: ['./mapa-vivo.page.scss'],
 })
-export class MapaVivoPage implements OnInit {
-  private map!: L.Map;
+export class MapaVivoPage implements AfterViewInit {
+  map!: L.Map;
 
-  constructor(private mapaService: MapaService) {}
+  ngAfterViewInit() {
+    this.map = L.map('map', {
+      center: [-33.4489, -70.6693], // Santiago, Chile
+      zoom: 13
+    });
 
-  ngOnInit() {
-    this.initMap();
-  }
-
-  private initMap(): void {
-    // Inicializa el mapa
-    this.map = L.map('map').setView([-33.426961059472845, -70.64806328146462], 5);
-    
-    // Agrega la capa de OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    // Obtén los marcadores desde la API y agrégalos al mapa
-    this.mapaService.obtenerMarcadores().subscribe((data) => {
-      console.log('Datos recibidos desde la API:', data); // Verifica la respuesta aquí
-
-      if (data && data.marcadores) {
-        data.marcadores.forEach((marcador: any) => {
-          console.log('Marcador:', marcador); // Verificar cada marcador individual
-
-          L.marker([marcador.lat, marcador.lng])
-            .addTo(this.map)
-            .bindPopup(marcador.hospital)
-            .openPopup(); // Abre el popup para verificar
-        });
-      } else {
-        console.error('Formato incorrecto en los datos recibidos');
-      }
-    }, (error) => {
-      console.error('Error al obtener marcadores:', error); // Detectar problemas con la API
-    });
+    // Asegura que el mapa se renderice correctamente después de la carga
+    setTimeout(() => {
+      this.map.invalidateSize();
+    }, 500);
   }
 }
