@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { SharedService } from '../pages/services/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -10,17 +11,23 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
 
   horaActual: string | undefined;
+  idRolUsuario: number | undefined;
   emergenciasActivas = [
     { titulo: 'Incendio en Edificio A', descripcion: 'Se reporta un incendio en el cuarto piso.' },
     { titulo: 'Accidente de Tráfico', descripcion: 'Colisión múltiple en la autopista.' }
   ];
-  constructor(private navCtrl: NavController, private router: Router) {}
+  constructor(private navCtrl: NavController, private router: Router, private shared: SharedService) {}
 
   ngOnInit() {
     this.actualizarHora();
     setInterval(() => {
       this.actualizarHora();
     }, 1000); // Actualiza la hora cada segundo
+    this.obtenerRolUsuario();
+  }
+
+  obtenerRolUsuario() {
+    this.idRolUsuario = this.shared.getidRolUsuario();
   }
 
   actualizarHora() {

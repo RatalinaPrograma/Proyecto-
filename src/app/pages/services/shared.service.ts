@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SharedService {
   idUsuario: number = 0;
+  idRolUsuario: number = 2;
 
   constructor() { }
 
@@ -14,5 +15,13 @@ export class SharedService {
 
   setIdUsuario(idUsuario: number) {
     this.idUsuario = idUsuario;
+  }
+
+  getidRolUsuario(): number {
+    return this.idRolUsuario;
+  }
+
+  setidRolUsuario(idRolUsuario: number) {
+    this.idRolUsuario = idRolUsuario;
   }
 }

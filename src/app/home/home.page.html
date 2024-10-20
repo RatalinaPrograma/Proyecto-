@@ -46,7 +46,7 @@
           Historial
         </ion-button>
       </ion-col>
-      <ion-col size="12" size-md="4">
+      <ion-col size="12" size-md="4" *ngIf="idRolUsuario === 1">
         <ion-button expand="block" class="btn-verde-pastel" routerLink="/configuracion-unidad" routerDirection="root">
           Configuración Unidad
         </ion-button>
@@ -62,17 +62,17 @@
           Verificacion de la recepcion
         </ion-button>
       </ion-col>
-      <ion-col size="12" size-md="4">
+      <ion-col size="12" size-md="4" *ngIf="idRolUsuario === 1">
         <ion-button expand="block" class="btn-aqua" routerLink="/crud-pacientes" routerDirection="root">
           Crud Paciente
         </ion-button>
       </ion-col>
-      <ion-col size="12" size-md="4">
+      <ion-col size="12" size-md="4" *ngIf="idRolUsuario === 1">
         <ion-button expand="block" class="btn-aqua" routerLink="/crud-hospital" routerDirection="root">
           Crud Hospital
         </ion-button>
       </ion-col>
-      <ion-col size="12" size-md="4">
+      <ion-col size="12" size-md="4" *ngIf="idRolUsuario === 1">
         <ion-button expand="block" class="btn-aqua" routerLink="/crud-usuarios" routerDirection="root">
           Crud Usuarios
         </ion-button>

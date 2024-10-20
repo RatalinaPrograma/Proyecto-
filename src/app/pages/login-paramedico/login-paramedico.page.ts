@@ -53,6 +53,7 @@ import { SharedService } from '../services/shared.service';
       const usuario = await this.servicebd.login(this.rut, this.password);
       if (usuario) {
         this.shared.setIdUsuario(usuario.idPersona);
+        this.shared.setidRolUsuario(usuario.idRol);
         this.router.navigate(['/home']); // Redirige al home si el login es exitoso
       } else {
         this.alertasb.presentAlert('Error de inicio de sesión', 'Rut o contraseña incorrectos.');
