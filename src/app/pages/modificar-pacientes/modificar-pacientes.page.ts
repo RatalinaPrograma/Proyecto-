@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ServiciobdService } from '../services/serviciobd.service'; // Asegúrate de importar tu servicio de base de datos
+import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-modificar-pacientes',
@@ -19,7 +21,12 @@ export class ModificarPacientesPage implements OnInit {
     telefono_contacto: ''
   };
 
-  constructor(private route: ActivatedRoute, private bdService: ServiciobdService, private alertController: AlertController) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private bdService: ServiciobdService,
+    private alertController: AlertController,
+    private location: Location
+  ) { }
 
   ngOnInit() {
     this.rut = this.route.snapshot.paramMap.get('rut') || '';
@@ -31,6 +38,8 @@ export class ModificarPacientesPage implements OnInit {
       const paciente = await this.bdService.obtenerPaciente(rut);
       if (paciente) {
         this.paciente = paciente;
+        // se pone formato especial para el input date
+        this.paciente.f_nacimiento = new Date(this.paciente.f_nacimiento).toISOString().split('T')[0]
       } else {
         this.presentAlert('Error', 'Paciente no encontrado.');
       }
@@ -39,10 +48,18 @@ export class ModificarPacientesPage implements OnInit {
     }
   }
 
-  async modificarPaciente() {
+  async modificarPaciente(formulario: NgForm) {
+    if (formulario.invalid) {
+      this.presentAlert('Error', 'Todos los campos son obligatorios');
+      return;
+    }
+    
     try {
       const { idPaciente, nombre, f_nacimiento, idGenero, rut, telefono_contacto } = this.paciente;
-      await this.bdService.modificarPaciente(idPaciente, nombre, new Date(f_nacimiento), idGenero, rut, telefono_contacto);
+      const res = await this.bdService.modificarPaciente(idPaciente, nombre, new Date(f_nacimiento), idGenero, rut, telefono_contacto);
+      if (res.code === 'OK') {
+        this.location.back();
+      }
     } catch (error) {
       this.presentAlert('Error', `Error al modificar el paciente: ${(error as any).message}`);
     }

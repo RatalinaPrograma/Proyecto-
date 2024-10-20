@@ -1,4 +1,4 @@
-<form (ngSubmit)="modificarPaciente()" #pacienteForm="ngForm">
+<form (ngSubmit)="modificarPaciente(pacienteForm)" #pacienteForm="ngForm">
   <div>
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" [(ngModel)]="paciente.nombre" required>
@@ -10,9 +10,9 @@
   <div>
     <label for="idGenero">Género:</label>
     <select id="idGenero" name="idGenero" [(ngModel)]="paciente.idGenero" required>
-      <option value="1">Masculino</option>
-      <option value="2">Femenino</option>
-      <option value="3">Otro</option>
+      <option [ngValue]="1">Masculino</option>
+      <option [ngValue]="2">Femenino</option>
+      <option [ngValue]="3">Otro</option>
     </select>
   </div>
   <div>

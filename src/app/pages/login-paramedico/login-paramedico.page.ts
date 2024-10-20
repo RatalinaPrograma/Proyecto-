@@ -4,6 +4,7 @@
   import { Router } from '@angular/router';
   import { ServiciobdService } from '../services/serviciobd.service';
 import { AlertasService } from '../services/alertas.service';
+import { SharedService } from '../services/shared.service';
   
   
   @Component({ selector: 'app-login-paramedico',
@@ -18,7 +19,8 @@ import { AlertasService } from '../services/alertas.service';
       private alertController: AlertController, 
       private router: Router, 
       private servicebd: ServiciobdService, 
-      private alertasb: AlertasService // Servicio de alertas para mostrar mensajes
+      private alertasb: AlertasService, // Servicio de alertas para mostrar mensajes
+      private shared: SharedService,
     ) {}
   
     // Método para validar los campos de login
@@ -50,6 +52,7 @@ import { AlertasService } from '../services/alertas.service';
       // Proceder con el login si la validación es exitosa
       const usuario = await this.servicebd.login(this.rut, this.password);
       if (usuario) {
+        this.shared.setIdUsuario(usuario.idPersona);
         this.router.navigate(['/home']); // Redirige al home si el login es exitoso
       } else {
         this.alertasb.presentAlert('Error de inicio de sesión', 'Rut o contraseña incorrectos.');

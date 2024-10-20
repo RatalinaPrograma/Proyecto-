@@ -7,6 +7,7 @@ import { Trabajador } from './trabajador';
 import { Rol } from './rol';
 import { AlertasService } from './alertas.service';
 import { Hospital } from './hospital';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +66,7 @@ export class ServiciobdService {
 
   tablaTriage: string = "CREATE TABLE IF NOT EXISTS triage(idTriage INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL);";
 
-  tablaPaciente: string = "CREATE TABLE IF NOT EXISTS paciente(idPaciente INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, f_nacimiento DATE NOT NULL, idGenero INTEGER, rut VARCHAR(50) NOT NULL UNIQUE, telefono_contacto VARCHAR(15), FOREIGN KEY (idGenero) REFERENCES genero(idgenero));";
+  tablaPaciente: string = "CREATE TABLE IF NOT EXISTS paciente(idPaciente INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, f_nacimiento DATE NOT NULL, idGenero INTEGER, rut VARCHAR(50) NOT NULL UNIQUE, telefono_contacto VARCHAR(15), idSigno INTEGER, FOREIGN KEY (idGenero) REFERENCES genero(idgenero), FOREIGN KEY (idSigno) REFERENCES signos_vitales(idSigno));";
 
   tablaPersonal: string = "CREATE TABLE IF NOT EXISTS personal(idpersonal INTEGER PRIMARY KEY AUTOINCREMENT, idHospital INTEGER, idPersona INTEGER, FOREIGN KEY (idHospital) REFERENCES hospital(idHospital), FOREIGN KEY (idPersona) REFERENCES persona(idPersona));";
 
@@ -94,7 +95,8 @@ export class ServiciobdService {
   listadoTriage: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
 
-  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private AlertasService: AlertasService) {
+  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private AlertasService: AlertasService,
+    private location: Location) {
     this.crearBD();
   }
 
@@ -162,19 +164,45 @@ export class ServiciobdService {
     return this.listadoRol.asObservable();
   }
 
-  // Agregar
+  // Agregar SIGNOS VITALES
 
   operaciones!: string;
 
-  agregarSignosV(freq_cardiaca: number, presion_arterial: string, temp_corporal: number, sat_oxigeno: number, freq_respiratoria: number, condiciones: string, operaciones: string) {
-    return this.database.executeSql('INSERT OR IGNORE INTO SignosV (freq_cardiaca, presion_arterial, temp_corporal, sat_oxigeno, freq_respiratoria,condiciones,operaciones) VALUES (?, ?, ?, ?, ?,?,?)', [freq_cardiaca, presion_arterial, temp_corporal, sat_oxigeno, freq_respiratoria, condiciones, operaciones])
-      .then(res => {
-        this.AlertasService.presentAlert("Agregar signos vitales", "Signos vitales agregados correctamente.");
-
+  agregarSignosV(freq_cardiaca: number, presion_arterial: string, temp_corporal: number, sat_oxigeno: number, freq_respiratoria: number, condiciones: string, operaciones: string, rutPaciente: string) {
+    return this.database.executeSql('INSERT OR IGNORE INTO signos_vitales (freq_cardiaca, presion_arterial, temp_corporal, sat_oxigeno, freq_respiratoria,condiciones,operaciones) VALUES (?, ?, ?, ?, ?,?,?)', [freq_cardiaca, presion_arterial, temp_corporal, sat_oxigeno, freq_respiratoria, condiciones, operaciones])
+      .then(async res => {
+        const agregadoSignoAPaciente = await this.agregarSignoAPaciente(res.insertId, rutPaciente);
+        // if (agregadoSignoAPaciente.code === 'OK') {
+          this.AlertasService.presentAlert("Agregar signos vitales", `Signos vitales agregados correctamente. ID: ${res.insertId}`);
+          this.location.back();
+        // } else {
+          // this.AlertasService.presentAlert("Agregar signos vitales", agregadoSignoAPaciente.message);
+        // }
       })
       .catch(e => {
         this.AlertasService.presentAlert("Agregar signos vitales", "Ocurrió un error: " + JSON.stringify(e));
       });
+  }
+
+  agregarSignoAPaciente(idSigno: number, rutPaciente: string) {
+    this.database.executeSql('PRAGMA table_info(paciente);', [])
+      .then((res) => {
+        const tableInfo = [];
+        for (let i = 0; i < res.rows.length; i++) {
+          tableInfo.push(res.rows.item(i));
+          alert('Información de la tabla paciente:' + res.rows.item(i).name);
+        }
+      })
+      .catch(e => alert('Error al obtener información de la tabla:'+ e));
+
+    // const query = `UPDATE paciente SET idSigno = ? WHERE rut = ?`;
+    //   return this.database.executeSql(query, [idSigno, rutPaciente])
+    //     .then(res => {
+    //       return { code:'OK', message: 'Paciente modificado', changes: res.rowsAffected };
+    //     })
+    //     .catch(e => {
+    //       return { code:'ERROR', message: `No se pudo actualizar el id signo vital en paciente ${idSigno} rut: ${rutPaciente} ERROR: ${JSON.stringify(e)}`, changes: null };
+    //     });
   }
 
 
@@ -230,6 +258,7 @@ export class ServiciobdService {
             idGenero: res.rows.item(i).idGenero,
             rut: res.rows.item(i).rut,
             telefono_contacto: res.rows.item(i).telefono_contacto,
+            idSignosVitales: res.rows.item(i).idSigno
           });
         }
       }
@@ -273,7 +302,7 @@ export class ServiciobdService {
       return this.database.executeSql(query, [nombre, f_nacimiento, idGenero, rut, telefono_contacto, idPaciente])
         .then(res => {
           this.AlertasService.presentAlert("Modificar paciente", "Paciente modificado correctamente.");
-          return { message: 'Paciente modificado', changes: res.rowsAffected };
+          return { code:'OK', message: 'Paciente modificado', changes: res.rowsAffected };
         });
     }).catch(err => {
       this.AlertasService.presentAlert("Modificar paciente", "Ocurrió un error: " + err.message);
@@ -527,7 +556,7 @@ export class ServiciobdService {
   }
 
   // Modificar persona
-  modificarPersona(idPersona: number, persona: any) {
+  modificarPersona(persona: any) {
     const query = `
       UPDATE persona 
       SET nombres = ?, apellidos = ?, rut = ?, correo = ?, 
@@ -536,7 +565,7 @@ export class ServiciobdService {
 
     const values = [
       persona.nombres, persona.apellidos, persona.rut, persona.correo,
-      persona.clave, persona.telefono, persona.foto, persona.idRol, idPersona
+      persona.clave, persona.telefono, persona.foto, persona.idRol, persona.idPersona
     ];
 
     return this.database.executeSql(query, values);

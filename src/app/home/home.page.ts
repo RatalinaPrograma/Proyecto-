@@ -73,14 +73,5 @@ export class HomePage implements OnInit {
     // Navega a la página de soporte técnico
     this.navCtrl.navigateRoot('/soporte-tecnico');
   }
-
-  irmodificarusuario() {
-    const idUsuario = sessionStorage.getItem('idUsuario'); // Obtener ID del usuario autenticado
-    if (idUsuario) {
-      this.router.navigate(['/ajustes-perfil-paramedico', idUsuario]); // Navegar al perfil del usuario
-    } else {
-      console.error('No se encontró el ID del usuario en la sesión.');
-    }
-  }
 }
 

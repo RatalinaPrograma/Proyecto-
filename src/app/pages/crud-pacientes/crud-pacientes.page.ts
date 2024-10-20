@@ -13,6 +13,7 @@ import { ViewWillEnter } from '@ionic/angular';
 export class CrudPacientesPage implements OnInit, OnDestroy, ViewWillEnter {
   pacientes: Pacientes[] = [];
   private intervalId: any;
+  tieneSignosCreados: boolean = false;
 
   constructor(
     private router: Router,
@@ -113,5 +114,18 @@ export class CrudPacientesPage implements OnInit, OnDestroy, ViewWillEnter {
       edad--;
     }
     return edad;
+  }
+
+  agregarPaciente() {
+    this.router.navigate(['/agregar-pacientes']);
+  }
+
+  administrarSignosPacientes(rut: string, idSignosVitales?: number) {
+    // si tiene signos vitales asignados, se envía a modificar, sino a agregar uno nuevo
+    if (idSignosVitales) {
+      this.router.navigate(['/modificar-signos-vitales', rut]);
+    } else {
+      this.router.navigate(['/agregar-signos-vitales', rut]);
+    }
   }
 }

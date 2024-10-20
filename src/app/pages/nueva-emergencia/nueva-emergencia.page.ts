@@ -6,6 +6,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { AlertasService } from '../services/alertas.service';
 import { Pacientes } from '../services/pacientes';
 import { EnvioInfoPage } from '../envio-info/envio-info.page';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-nueva-emergencia',
@@ -25,19 +26,40 @@ export class NuevaEmergenciaPage implements OnInit {
 
   constructor(
     private router: Router, 
-    private baseDatos: ServiciobdService
+    private baseDatos: ServiciobdService,
+    private alertController: AlertController,
   ) {}
 
 
   ngOnInit() {}
 
 
-  guardarPaciente() {    
-    this.baseDatos.agregarPaciente(this.paciente.nombre, this.paciente.f_nacimiento,this.paciente.idGenero,this.paciente.rut,this.paciente.telefono_contacto)
+  guardarPaciente(form: NgForm) {    
+    if (form.invalid) {
+      alert('ERROR: Todos los campos son obligatorios')
+      return;
+    } else if (this.paciente.rut || this.paciente.nombre || this.paciente.f_nacimiento || this.paciente.idGenero || this.paciente.telefono_contacto) {
+      this.baseDatos.agregarPaciente(this.paciente.nombre, this.paciente.f_nacimiento,this.paciente.idGenero,this.paciente.rut,this.paciente.telefono_contacto)
       .then( (res) => {
         alert("Paciente agregado con éxito");
         this.router.navigate(['/envio-info', this.paciente.rut]);
       })
       .catch( (error) => alert(`ERROR ${error}`));
+    } else {
+      alert('ERROR: Todos los campos son obligatorios')
+      return;
+    }
+
+    
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
   }
 }

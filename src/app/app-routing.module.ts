@@ -55,7 +55,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/detalles-caso-anterior/detalles-caso-anterior.module').then( m => m.DetallesCasoAnteriorPageModule)
   },
   {
-    path: 'ajustes-perfil-paramedico/:id',
+    path: 'ajustes-perfil-paramedico',
     loadChildren: () => import('./pages/ajustes-perfil-paramedico/ajustes-perfil-paramedico.module').then( m => m.AjustesPerfilParamedicoPageModule)
   },
   {
@@ -93,6 +93,10 @@ const routes: Routes = [
   {
     path: 'agregar-pacientes',
     loadChildren: () => import('./pages/agregar-pacientes/agregar-pacientes.module').then( m => m.AgregarPacientesPageModule)
+  },
+  {
+    path: 'agregar-signos-vitales/:rut',
+    loadChildren: () => import('./pages/agregar-signos-vitales/agregar-signos-vitales.module').then( m => m.AgregarSignosVitalesModule)
   },
   {
     path: 'eliminar-pacientes/:rut',

@@ -147,7 +147,7 @@ export class ModificarUsuariosPage implements OnInit {
       }
   
       try {
-        await this.serviciobd.modificarPersona(this.persona.idPersona!, this.persona);
+        await this.serviciobd.modificarPersona(this.persona);
         await this.alertasService.presentAlert('Éxito', 'Cambios guardados correctamente.');
         this.router.navigate(['/crud-usuarios']); // Redirigir después de guardar
       } catch (error) {

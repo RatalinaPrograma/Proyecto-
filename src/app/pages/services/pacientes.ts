@@ -6,4 +6,5 @@ export class Pacientes {
     rut!:string;
     telefono_contacto!:string;
     edad?: number;
+    idSignosVitales?: number;
 }
