@@ -99,7 +99,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/agregar-signos-vitales/agregar-signos-vitales.module').then( m => m.AgregarSignosVitalesModule)
   },
   {
-    path: 'modificar-signos-vitales/:rut',
+    path: 'modificar-signos-vitales/:rutPaciente',
     loadChildren: () => import('./pages/modificar-signos-vitales/modificar-signos-vitales.module').then( m => m.ModificarSignosVitalesModule)
   },
   {

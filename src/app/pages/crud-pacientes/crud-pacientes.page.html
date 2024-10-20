@@ -24,6 +24,7 @@
       <p><strong>Edad:</strong> {{ calcularEdad(paciente.f_nacimiento) }} años</p>
       <p><strong>Género:</strong> {{ paciente.idGenero }}</p>
       <p><strong>Télefono de Contacto:</strong> {{ paciente.telefono_contacto }}</p>
+      <p><strong>¿Tiene signos vitales?</strong> {{ paciente.idSignosVitales ? 'SI' : 'NO'}}</p>
     </ion-card-content>
   
     <ion-button fill="clear" (click)="eliminarPacientes(paciente.rut)">Eliminar</ion-button>

@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ServiciobdService } from '../services/serviciobd.service';
 import { AlertController } from '@ionic/angular';
 import { Location } from '@angular/common';
-import { signosVitales } from '../services/signosVitales.model';
+import { SignosVitales } from '../services/signosVitales.model';
 
 @Component({
   selector: 'app-agregar-signos-vitales',
@@ -12,7 +12,7 @@ import { signosVitales } from '../services/signosVitales.model';
   styleUrls: ['./agregar-signos-vitales.component.scss'],
 })
 export class AgregarSignosVitalesComponent  implements OnInit {
-  public signosVitales: signosVitales = {
+  public signosVitales: SignosVitales = {
     freq_cardiaca: 120,
     presion_arterial: '1.25',
     temp_corporal: 130,

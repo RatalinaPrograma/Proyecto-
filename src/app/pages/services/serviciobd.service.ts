@@ -8,6 +8,7 @@ import { Rol } from './rol';
 import { AlertasService } from './alertas.service';
 import { Hospital } from './hospital';
 import { Location } from '@angular/common';
+import { SignosVitales } from './signosVitales.model';
 
 @Injectable({
   providedIn: 'root'
@@ -173,7 +174,7 @@ export class ServiciobdService {
   agregarSignosV(freq_cardiaca: number, presion_arterial: string, temp_corporal: number, sat_oxigeno: number, freq_respiratoria: number, condiciones: string, operaciones: string, rutPaciente: string) {
     return this.database.executeSql('INSERT OR IGNORE INTO signos_vitales (freq_cardiaca, presion_arterial, temp_corporal, sat_oxigeno, freq_respiratoria,condiciones,operaciones) VALUES (?, ?, ?, ?, ?,?,?)', [freq_cardiaca, presion_arterial, temp_corporal, sat_oxigeno, freq_respiratoria, condiciones, operaciones])
       .then(async res => {
-        const agregadoSignoAPaciente = await this.agregarSignoAPaciente(res.insertId, rutPaciente);
+        const agregadoSignoAPaciente = await this.agregarSignoAPaciente(rutPaciente, res.insertId);
         if (agregadoSignoAPaciente.code === 'OK') {
           this.AlertasService.presentAlert("Agregar signos vitales", `Signos vitales agregados correctamente. ID: ${res.insertId}`);
           this.location.back();
@@ -186,10 +187,11 @@ export class ServiciobdService {
       });
   }
 
-  agregarSignoAPaciente(idSigno: number, rutPaciente: string) {
+  agregarSignoAPaciente(rutPaciente: string, idSigno?: number) {
     const query = `UPDATE paciente SET idSigno = ? WHERE rut = ?`;
       return this.database.executeSql(query, [idSigno, rutPaciente])
         .then(res => {
+          alert('Paciente modificado ' + res.rowsAffected + ' RUT: ' + rutPaciente + ' IDSIGNO: ' + idSigno)
           return { code:'OK', message: 'Paciente modificado', changes: res.rowsAffected };
         })
         .catch(e => {
@@ -197,6 +199,95 @@ export class ServiciobdService {
         });
   }
 
+  modificarSignosVitales(idSigno: number, freq_cardiaca: number, presion_arterial: string, temp_corporal: number, sat_oxigeno: number, freq_respiratoria: number, condiciones: string, operaciones: string) {
+    if (idSigno != 0) {
+      return this.database.executeSql('UPDATE signos_vitales SET freq_cardiaca = ?, presion_arterial = ?, temp_corporal = ?, sat_oxigeno = ?, freq_respiratoria = ?, condiciones = ?, operaciones = ? WHERE idSigno = ?', 
+        [freq_cardiaca, presion_arterial, temp_corporal, sat_oxigeno, freq_respiratoria, condiciones, operaciones, idSigno])
+      .then(async res => {
+          this.AlertasService.presentAlert("Modificar signos vitales", `Signos vitales modificados correctamente.`);
+          this.location.back();
+      })
+      .catch(e => {
+        this.AlertasService.presentAlert("Modificar signos vitales", "Ocurrió un error: " + JSON.stringify(e));
+      });
+    } else {
+      this.AlertasService.presentAlert("Modificar signos vitales", "Ocurrió un error: No existen signos vitales.");
+      throw new Error("Ocurrió un error: No existen signos vitales.");
+    }
+  }
+
+  consultartablaSignosVitalesPorRutPaciente(rutPaciente: string): Promise<SignosVitales> {
+    return this.database.executeSql(`
+          SELECT  signos_vitales.idSigno, 
+                  signos_vitales.freq_cardiaca,
+                  signos_vitales.presion_arterial,
+                  signos_vitales.temp_corporal,
+                  signos_vitales.sat_oxigeno,
+                  signos_vitales.freq_respiratoria,
+                  signos_vitales.condiciones,
+                  signos_vitales.operaciones
+          FROM paciente 
+          INNER JOIN signos_vitales ON paciente.idSigno = signos_vitales.idSigno
+          WHERE paciente.rut = ?`, [rutPaciente]).then(res => {
+
+      let signos: SignosVitales;
+      if (res.rows.length > 0) {
+        signos = {
+          idSigno: res.rows.item(0).idSigno,
+          freq_cardiaca: res.rows.item(0).freq_cardiaca,
+          presion_arterial: res.rows.item(0).presion_arterial,
+          temp_corporal: res.rows.item(0).temp_corporal,
+          sat_oxigeno: res.rows.item(0).sat_oxigeno,
+          freq_respiratoria: res.rows.item(0).freq_respiratoria,
+          condiciones: res.rows.item(0).condiciones,
+          operaciones: res.rows.item(0).operaciones,
+        }
+      } else {
+        throw new Error(`No se encontraron signos vitales para este paciente con rut ${rutPaciente}.`);
+      }
+      return signos;
+    }).catch(err => {
+      // Captura cualquier error que ocurra en el proceso
+      this.AlertasService.presentAlert(
+        "Obtener signos vitales",
+        "Ocurrió un error: " + err.message
+      );
+      return Promise.reject(new Error(`Error al Obtener signos vitales del paciente: ${err.message}`));
+    });;
+  }
+
+  verificarSignosVitales(idSigno: number): Promise<boolean> {
+    const query = `SELECT COUNT(*) as count FROM signos_vitales WHERE idSigno = ?`;
+    return this.database.executeSql(query, [idSigno]).then(res => {
+      return res.rows.item(0).count > 0;
+    });
+  }
+
+  eliminarSignosVitales(idSigno: number, rutPaciente: string): Promise<any> {
+    if (idSigno != 0) {
+      return this.verificarSignosVitales(idSigno).then(async existe => {
+        if (!existe) {
+          return Promise.reject(new Error('No se encontraron signos vitales para eliminar.'));
+        }
+        const query = `DELETE FROM signos_vitales WHERE idSigno = ?`;
+        return this.database.executeSql(query, [idSigno]).then(async res => {
+          const agregadoSignoAPaciente = await this.agregarSignoAPaciente(rutPaciente, undefined);
+          if (agregadoSignoAPaciente.code === 'OK') {
+            this.AlertasService.presentAlert("Eliminar signos vitales", "Signos vitales eliminados correctamente.");
+            this.location.back();
+            return { message: 'Signos vitales eliminados', changes: res.rowsAffected };
+          } else {
+            throw new Error('Error al eliminar signos vitales de paciente rut ' + rutPaciente);
+          }
+        });
+      }).catch(err => {
+        return Promise.reject(new Error(`Error al eliminar signos vitales: ${err.message}`));
+      });
+    } else {
+      this.AlertasService.presentAlert("Eliminar signos vitales", "Ocurrió un error: No existen signos vitales.");
+      throw new Error("Ocurrió un error: No existen signos vitales.");
+    }
+  }
 
   // PACIENTE
 
@@ -225,6 +316,7 @@ export class ServiciobdService {
             "Agregar paciente",
             "Paciente agregado correctamente."
           );
+          this.location.back();
           return { message: 'Paciente agregado', changes: res.rowsAffected };
         });
     }).catch(err => {

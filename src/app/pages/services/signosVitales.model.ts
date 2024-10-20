@@ -1,4 +1,4 @@
-export class signosVitales {
+export class SignosVitales {
     idSigno?: number;
     freq_cardiaca: number;
     presion_arterial: string;
