@@ -103,20 +103,22 @@ export class ServiciobdService {
   crearBD() {
     if (this.dbIsCreated) return;
 
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async () => {
       this.sqlite.create({
         name: 'pulseTrack.db',
         location: 'default'
-      }).then((db: SQLiteObject) => {
+      }).then(async (db: SQLiteObject) => {
         this.database = db;
-        this.crearTablas();
+        this.crearTablas();        
         this.isDBReady.next(true);
         this.dbIsCreated = true;
       }).catch(e => {
         console.error('Error al crear la BD', e);
         this.presentAlert('Creación de BD', 'Error creando la BD: ' + JSON.stringify(e));
       });
+
     });
+    
   }
 
   crearTablas() {
@@ -172,12 +174,12 @@ export class ServiciobdService {
     return this.database.executeSql('INSERT OR IGNORE INTO signos_vitales (freq_cardiaca, presion_arterial, temp_corporal, sat_oxigeno, freq_respiratoria,condiciones,operaciones) VALUES (?, ?, ?, ?, ?,?,?)', [freq_cardiaca, presion_arterial, temp_corporal, sat_oxigeno, freq_respiratoria, condiciones, operaciones])
       .then(async res => {
         const agregadoSignoAPaciente = await this.agregarSignoAPaciente(res.insertId, rutPaciente);
-        // if (agregadoSignoAPaciente.code === 'OK') {
+        if (agregadoSignoAPaciente.code === 'OK') {
           this.AlertasService.presentAlert("Agregar signos vitales", `Signos vitales agregados correctamente. ID: ${res.insertId}`);
           this.location.back();
-        // } else {
-          // this.AlertasService.presentAlert("Agregar signos vitales", agregadoSignoAPaciente.message);
-        // }
+        } else {
+          this.AlertasService.presentAlert("Agregar signos vitales", agregadoSignoAPaciente.message);
+        }
       })
       .catch(e => {
         this.AlertasService.presentAlert("Agregar signos vitales", "Ocurrió un error: " + JSON.stringify(e));
@@ -185,24 +187,14 @@ export class ServiciobdService {
   }
 
   agregarSignoAPaciente(idSigno: number, rutPaciente: string) {
-    this.database.executeSql('PRAGMA table_info(paciente);', [])
-      .then((res) => {
-        const tableInfo = [];
-        for (let i = 0; i < res.rows.length; i++) {
-          tableInfo.push(res.rows.item(i));
-          alert('Información de la tabla paciente:' + res.rows.item(i).name);
-        }
-      })
-      .catch(e => alert('Error al obtener información de la tabla:'+ e));
-
-    // const query = `UPDATE paciente SET idSigno = ? WHERE rut = ?`;
-    //   return this.database.executeSql(query, [idSigno, rutPaciente])
-    //     .then(res => {
-    //       return { code:'OK', message: 'Paciente modificado', changes: res.rowsAffected };
-    //     })
-    //     .catch(e => {
-    //       return { code:'ERROR', message: `No se pudo actualizar el id signo vital en paciente ${idSigno} rut: ${rutPaciente} ERROR: ${JSON.stringify(e)}`, changes: null };
-    //     });
+    const query = `UPDATE paciente SET idSigno = ? WHERE rut = ?`;
+      return this.database.executeSql(query, [idSigno, rutPaciente])
+        .then(res => {
+          return { code:'OK', message: 'Paciente modificado', changes: res.rowsAffected };
+        })
+        .catch(e => {
+          return { code:'ERROR', message: `No se pudo actualizar el id signo vital en paciente ${idSigno} rut: ${rutPaciente} ERROR: ${JSON.stringify(e)}`, changes: null };
+        });
   }
 
 

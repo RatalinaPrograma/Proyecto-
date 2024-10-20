@@ -1,0 +1,31 @@
+<form (ngSubmit)="modificarSignosVitales(signosForm)" #signosForm="ngForm">
+  <div>
+    <label for="freq_cardiaca">Frecuencia cardiaca:</label>
+    <input type="number" id="freq_cardiaca" name="freq_cardiaca" [(ngModel)]="signosVitales.freq_cardiaca" required>
+  </div>
+  <div>
+    <label for="freq_cardiaca">Presión arterial:</label>
+    <input type="text" id="presion_arterial" name="presion_arterial" [(ngModel)]="signosVitales.presion_arterial" required>
+  </div>
+  <div>
+    <label for="temp_corporal">Temperatura corporal:</label>
+    <input type="number" id="temp_corporal" name="temp_corporal" [(ngModel)]="signosVitales.temp_corporal" required>
+  </div>
+  <div>
+    <label for="sat_oxigeno">Saturación oxígeno:</label>
+    <input type="number" id="sat_oxigeno" name="sat_oxigeno" [(ngModel)]="signosVitales.sat_oxigeno" required>
+  </div>
+  <div>
+    <label for="freq_respiratoria">Frecuencia respiratoria:</label>
+    <input type="number" id="freq_respiratoria" name="freq_respiratoria" [(ngModel)]="signosVitales.freq_respiratoria" required>
+  </div>
+  <div>
+    <label for="condiciones">Condiciones:</label>
+    <input type="text" id="condiciones" name="condiciones" [(ngModel)]="signosVitales.condiciones" required>
+  </div>
+  <div>
+    <label for="operaciones">Operaciones:</label>
+    <input type="text" id="operaciones" name="operaciones" [(ngModel)]="signosVitales.operaciones" required>
+  </div>
+  <button type="submit">Guardar</button>
+</form>
