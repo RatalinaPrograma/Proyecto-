@@ -13,13 +13,13 @@ import { SignosVitales } from '../services/signosVitales.model';
 })
 export class AgregarSignosVitalesComponent  implements OnInit {
   public signosVitales: SignosVitales = {
-    freq_cardiaca: 120,
-    presion_arterial: '1.25',
-    temp_corporal: 130,
-    sat_oxigeno: 130,
-    freq_respiratoria: 130,
-    condiciones: 'ninguna',
-    operaciones: 'ninguna'
+    freq_cardiaca: 0,
+    presion_arterial: '',
+    temp_corporal: 0,
+    sat_oxigeno: 0,
+    freq_respiratoria: 0,
+    condiciones: '',
+    operaciones: ''
   };
 
   rut: string = '';

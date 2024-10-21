@@ -562,6 +562,24 @@ export class ServiciobdService {
     }
   }
 
+  async obtenerUsuarioPorRut(rut: string): Promise<any> {
+    const query = 'SELECT * FROM persona WHERE rut = ?';
+
+    try {
+      const res = await this.database.executeSql(query, [rut]);
+      if (res.rows.length > 0) {
+        console.log('Usuario encontrado:', res.rows.item(0)); // Depuración
+        return res.rows.item(0); // Retorna el primer registro encontrado
+      } else {
+        console.warn('No se encontró ningún usuario con el ID proporcionado.'); // Depuración
+        return null; // No se encontró el usuario
+      }
+    } catch (error) {
+      console.error('Error al obtener usuario:', error);
+      throw error; // Lanza el error para manejarlo en el componente
+    }
+  }
+
 
   // Validación de los campos del usuario
   private validarDatos(persona: any): boolean {
@@ -650,6 +668,19 @@ export class ServiciobdService {
     const values = [
       persona.nombres, persona.apellidos, persona.rut, persona.correo,
       persona.clave, persona.telefono, persona.foto, persona.idRol, persona.idPersona
+    ];
+
+    return this.database.executeSql(query, values);
+  }
+
+  modificarClavePersona(rut: string, clave: string) {
+    const query = `
+      UPDATE persona 
+      SET clave = ?
+      WHERE rut = ?`;
+
+    const values = [
+      clave, rut
     ];
 
     return this.database.executeSql(query, values);
